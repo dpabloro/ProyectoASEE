@@ -1,3 +1,23 @@
 <resources>
     <string name="app_name">ProyectoASEE</string>
+    <string name="statusList">Status</string>
+    <string name="priorityList">Priority</string>
+    <string name="dateList">Date</string>
+    <string name="titleDetailsList">Title</string>
+    <string name="introducir_textTitle">Lista de la compra</string>
+    <string name="statusText">Status</string>
+    <string name="pendiente">Pending</string>
+    <string name="realizado">Done</string>
+
+    <string name="timeAndDateText">Time and Date</string>
+    <string name="noDate"> date</string>
+    <string name="noTime"> time</string>
+    <string name="chooseDate">Choose date</string>
+    <string name="chooseTime">Choose time</string>
+
+    <string name="cancelButton">Cancel </string>
+    <string name="resetButton">Reset </string>
+    <string name="submitButton">Save </string>
+
+
 </resources>
