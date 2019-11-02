@@ -1,73 +1,35 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/RelativeLayout1"
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:orientation="vertical" >
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    tools:context="es.unex.giiis.asee.proyectoasee.MainActivity">
 
-    <TextView
-        android:id="@+id/titleView"
+    <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:textAppearance="?android:attr/textAppearanceLarge" >
-    </TextView>
+        android:theme="@style/AppTheme.AppBarOverlay">
 
-    <TextView
-        android:id="@+id/StatusLabel"
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="?attr/colorPrimary"
+            app:popupTheme="@style/AppTheme.PopupOverlay" />
+
+    </android.support.design.widget.AppBarLayout>
+
+    <include layout="@layout/content_item" />
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fab_margin"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignBaseline="@+id/statusCheckBox"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginTop="17dp"
-        android:text="@string/statusList" >
-    </TextView>
+        android:layout_gravity="bottom|end"
+        android:layout_margin="@dimen/fab_margin"
+        android:tint="@android:color/white"
+        app:srcCompat="@android:drawable/ic_input_add" />
 
-    <CheckBox
-        android:id="@+id/statusCheckBox"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_marginTop="34dp"
-        android:layout_toEndOf="@+id/StatusLabel" >
-    </CheckBox>
-
-    <TextView
-        android:id="@+id/PriorityLabel"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBaseline="@+id/statusCheckBox"
-        android:layout_alignTop="@+id/StatusLabel"
-        android:layout_toStartOf="@+id/priorityView"
-        android:text="@string/priorityList" >
-    </TextView>
-
-    <TextView
-        android:id="@+id/priorityView"
-        android:layout_width="50dip"
-        android:layout_height="wrap_content"
-        android:layout_alignBaseline="@+id/statusCheckBox"
-        android:layout_alignParentEnd="true"
-        android:layout_alignTop="@+id/StatusLabel" >
-    </TextView>
-
-    <TextView
-        android:id="@+id/DateLabel"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_below="@+id/statusCheckBox"
-        android:text="@string/dateList" >
-    </TextView>
-
-    <TextView
-        android:id="@+id/dateView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBaseline="@+id/DateLabel"
-        android:layout_toEndOf="@+id/DateLabel" >
-    </TextView>
-
-</RelativeLayout>
+</android.support.design.widget.CoordinatorLayout>
