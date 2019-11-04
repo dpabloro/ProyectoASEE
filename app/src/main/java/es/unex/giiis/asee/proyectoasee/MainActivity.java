@@ -69,13 +69,13 @@ public class MainActivity extends AppCompatActivity {
 
 
         // Creamos un adapatador para el RecyclerView
-         mAdapter = new ToDoAdapter(new ToDoAdapter.OnItemClickListener(){
+/*         mAdapter = new ToDoAdapter(new ToDoAdapter.OnItemClickListener(){
             @Override
             public void onItemClick(ToDoItem item){
                 Snackbar.make(ToDoManagerActivity.this.getCurrentFocus(),"Item" + item.getTitle()+" clicked", Snackbar.LENGTH_LONG);
             }
         });
-
+*/
         // Attach the adapter to the RecyclerView
         rRecyclerView.setAdapter(mAdapter);
 
@@ -102,13 +102,9 @@ public class MainActivity extends AppCompatActivity {
 
         // Load saved ToDoItems, if necessary
 
-        if (mAdapter.getItemCount() == 0)
-            loadItems();
+        //if (mAdapter.getItemCount() == 0)
+         //   loadItems();
     }
-
-
-
-
 
 
 }
