@@ -13,6 +13,8 @@
     <string name="noDate"> date</string>
     <string name="noTime"> time</string>
     <string name="chooseDate">Choose date</string>
+    <string name="chooseAliments">Choose aliments</string>
+
     <string name="chooseTime">Choose time</string>
 
     <string name="cancelButton">Cancel </string>
