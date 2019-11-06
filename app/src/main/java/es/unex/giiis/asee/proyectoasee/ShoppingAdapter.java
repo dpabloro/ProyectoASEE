@@ -2,7 +2,6 @@ package es.unex.giiis.asee.proyectoasee;
 
 import android.graphics.Color;
 
-import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,27 +13,27 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ToDoAdapter extends RecyclerView.Adapter<ToDoAdapter.ViewHolder>  {
-    private final List<ToDoItem> mItems = new ArrayList<ToDoItem>();
+public class ShoppingAdapter extends RecyclerView.Adapter<ShoppingAdapter.ViewHolder>  {
+    private final List<ShoppingItem> mItems = new ArrayList<ShoppingItem>();
 
     public interface OnItemClickListener {
-        void onItemClick(ToDoItem item);     //Type of the element to be returned
+        void onItemClick(ShoppingItem item);     //Type of the element to be returned
     }
 
     private final OnItemClickListener listener;
 
     // Provide a suitable constructor (depends on the kind of dataset)
-    public ToDoAdapter(OnItemClickListener listener) {
+    public ShoppingAdapter(OnItemClickListener listener) {
 
         this.listener = listener;
     }
 
     // Create new views (invoked by the layout manager)
     @Override
-    public ToDoAdapter.ViewHolder onCreateViewHolder(ViewGroup parent,
+    public ShoppingAdapter.ViewHolder onCreateViewHolder(ViewGroup parent,
                                                      int viewType) {
         // - Inflate the View for every element
-        View v = (View) LayoutInflater.from(parent.getContext()).inflate(R.layout.to_do_items, parent,false);
+        View v = (View) LayoutInflater.from(parent.getContext()).inflate(R.layout.shopping_items, parent,false);
 
         return new ViewHolder(v);
     }
@@ -51,7 +50,7 @@ public class ToDoAdapter extends RecyclerView.Adapter<ToDoAdapter.ViewHolder>  {
         return mItems.size();
     }
 
-    public void add(ToDoItem item) {
+    public void add(ShoppingItem item) {
 
         mItems.add(item);
         notifyDataSetChanged();
@@ -88,20 +87,20 @@ public class ToDoAdapter extends RecyclerView.Adapter<ToDoAdapter.ViewHolder>  {
             dateView = (TextView) itemView.findViewById(R.id.dateView);
         }
 
-        public void bind(final ToDoItem toDoItem, final OnItemClickListener listener) {
+        public void bind(final ShoppingItem shoppingItem, final OnItemClickListener listener) {
 
             // Display Title in TextView
-            title.setText(toDoItem.getTitle());
+            title.setText(shoppingItem.getTitle());
 
             // Display Priority in a TextView
-            priorityView.setText(toDoItem.getPriority().toString());
+            priorityView.setText(shoppingItem.getPriority().toString());
 
             //  Display Time and Date.
-            // Hint - use ToDoItem.FORMAT.format(toDoItem.getDate()) to get date and time String
-            dateView.setText(toDoItem.FORMAT.format(toDoItem.getDate()));
+            // Hint - use shoppingItem.FORMAT.format(shoppingItem.getDate()) to get date and time String
+            dateView.setText(shoppingItem.FORMAT.format(shoppingItem.getDate()));
 
             //  Set up Status CheckBox
-            statusView.setChecked(toDoItem.getStatus() == ToDoItem.Status.DONE);
+            statusView.setChecked(shoppingItem.getStatus() == ShoppingItem.Status.DONE);
 
             statusView.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 @Override
@@ -112,10 +111,10 @@ public class ToDoAdapter extends RecyclerView.Adapter<ToDoAdapter.ViewHolder>  {
                     // TODO - Set up and implement an OnCheckedChangeListener
                     // is called when the user toggles the status checkbox
                     if (isChecked) {
-                        toDoItem.setStatus(ToDoItem.Status.DONE);
+                        shoppingItem.setStatus(ShoppingItem.Status.DONE);
                         title.setBackgroundColor(Color.GREEN);
                     } else {
-                        toDoItem.setStatus(ToDoItem.Status.PENDING);
+                        shoppingItem.setStatus(ShoppingItem.Status.PENDING);
                         title.setBackgroundColor(Color.WHITE);
                     }
 
@@ -127,7 +126,7 @@ public class ToDoAdapter extends RecyclerView.Adapter<ToDoAdapter.ViewHolder>  {
 
                 @Override
                 public void onClick(View v) {
-                    listener.onItemClick(toDoItem);
+                    listener.onItemClick(shoppingItem);
                 }
 
             });
