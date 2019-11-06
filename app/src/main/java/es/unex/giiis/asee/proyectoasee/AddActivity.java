@@ -1,9 +1,11 @@
 package es.unex.giiis.asee.proyectoasee;
 
+import android.annotation.SuppressLint;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
@@ -11,11 +13,11 @@ import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
-
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import androidx.fragment.app.DialogFragment;
+import android.app.DialogFragment;
 import android.app.DatePickerDialog;
+import es.unex.giiis.asee.proyectoasee.ShoppingItem.Status;
 
 import java.util.Calendar;
 import java.util.Date;
@@ -34,12 +36,12 @@ public class AddActivity extends AppCompatActivity {
     private static TextView timeView;
 
 
-    private Date mDate;
-    private RadioGroup mPriorityRadioGroup;
     private RadioGroup mStatusRadioGroup;
     private EditText mTitleText;
     private RadioButton mDefaultStatusButton;
-    private RadioButton mDefaultPriorityButton;
+
+    private static final int ADD_ALIMENT_REQUEST = 0;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,16 +50,15 @@ public class AddActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        mTitleText = (EditText) findViewById(R.id.title);
+        mTitleText = (EditText) findViewById(R.id.titleIntroducirId);
         mDefaultStatusButton = (RadioButton) findViewById(R.id.statusNotDone);
 
 
         mStatusRadioGroup = (RadioGroup) findViewById(R.id.statusGroup);
         dateView = (TextView) findViewById(R.id.date);
-        timeView = (TextView) findViewById(R.id.time);
 
         // Set the default date and time
-        setDefaultDateTime();
+        setDefaultDate();
 
         // OnClickListener for the Date button, calls showDatePickerDialog() to show
         // the Date dialog
@@ -88,13 +89,70 @@ public class AddActivity extends AppCompatActivity {
 
             }
         });
+
+        //OnClickListener for the Reset Button
+
+        final Button resetButton = (Button) findViewById(R.id.resetButton);
+        resetButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                log("Entered resetButton.OnClickListener.onClick()");
+                Log.i("Delia","LLEGA AQUÍ");
+                // - Reset data fields to default values
+                mTitleText.setText("");
+                Log.i("Delia","LLEGA AQUÍ2");
+
+                mStatusRadioGroup.check(mDefaultStatusButton.getId());
+                setDefaultDate();
+
+            }
+        });
+
+        final Button submitButton = (Button) findViewById(R.id.submitButton);
+        submitButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                log("Entered submitButton.OnClickListener.onClick()");
+
+                // Gather ToDoItem data
+
+                //-  Get Status
+                Status status = getStatus();
+
+
+                // -  Title
+                String title= mTitleText.getText().toString();
+
+                // - Date
+                String fullDate = dateString+" "+timeString;
+
+                // - Package ToDoItem data into an Intent
+                Intent data = new Intent();
+                ShoppingItem.packageIntent(data,title,status,fullDate);
+
+                // - return data Intent and finish
+                setResult(RESULT_OK,data);
+                finish();
+
+            }
+        });
+
+        final Button AlimentsButton = (Button) findViewById(R.id.selectAliment);
+        AlimentsButton.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view){
+                Intent intent= new Intent(AddActivity.this, AlimentActivity.class);
+                startActivityForResult(intent, ADD_ALIMENT_REQUEST);
+            }
+
+        });
+
     }
 
 
     private void showDatePickerDialog() {
-        //TODO - Create a Date Picker Dialog and show it
         DialogFragment newFragment = new DatePickerFragment();
-        //newFragment.show(getFragmentManager(), "datePicker");
+        newFragment.show(getFragmentManager(),"datePicker");
 
     }
 
@@ -133,6 +191,42 @@ public class AddActivity extends AppCompatActivity {
 
         dateString = year + "-" + monthOfYear + "-" + dayOfMonth;
 
+    }
+
+    private void setDefaultDate() {
+        // Default is current time + 7 days
+
+        Calendar c = Calendar.getInstance();
+
+        //Fecha
+
+        setDateString(c.get(Calendar.YEAR), c.get(Calendar.MONTH),
+                c.get(Calendar.DAY_OF_MONTH));
+
+        dateView.setText(dateString);
+
+
+    }
+
+    private Status getStatus() {
+
+        switch (mStatusRadioGroup.getCheckedRadioButtonId()) {
+            case R.id.statusDone: {
+                return Status.DONE;
+            }
+            default: {
+                return Status.PENDING;
+            }
+        }
+    }
+
+    private void log(String msg) {
+        try {
+            Thread.sleep(500);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        Log.i(TAG, msg);
     }
 }
 

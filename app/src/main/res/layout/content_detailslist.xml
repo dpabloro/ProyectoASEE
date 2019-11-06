@@ -18,13 +18,16 @@
     </TextView>
 
 
+    <!-- Status -->
+
     <EditText
         android:id="@+id/titleIntroducirId"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_below="@+id/TitleIdDetailsList"
         android:layout_alignParentLeft="true"
-        android:layout_below="@+id/TitleLabel"
-        android:layout_marginTop="14dp"
+        android:layout_marginLeft="3dp"
+        android:layout_marginTop="-16dp"
         android:ems="10"
         android:hint="@string/introducir_textTitle"
         android:inputType="textShortMessage"
@@ -33,9 +36,6 @@
         <requestFocus />
 
     </EditText>
-
-
-    <!-- Status -->
 
     <TextView
         android:id="@+id/status"
@@ -58,14 +58,14 @@
         android:layout_marginTop="12dp" >
 
         <RadioButton
-            android:id="@+id/statusDone"
+            android:id="@+id/statusNotDone"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:checked="true"
             android:text="@string/pendiente" />
 
         <RadioButton
-            android:id="@+id/statusNotDone"
+            android:id="@+id/statusDone"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
 

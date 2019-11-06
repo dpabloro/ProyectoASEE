@@ -92,8 +92,6 @@ public class ShoppingAdapter extends RecyclerView.Adapter<ShoppingAdapter.ViewHo
             // Display Title in TextView
             title.setText(shoppingItem.getTitle());
 
-            // Display Priority in a TextView
-            priorityView.setText(shoppingItem.getPriority().toString());
 
             //  Display Time and Date.
             // Hint - use shoppingItem.FORMAT.format(shoppingItem.getDate()) to get date and time String

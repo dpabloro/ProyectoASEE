@@ -1,9 +1,11 @@
 package es.unex.giiis.asee.proyectoasee;
 
+import androidx.annotation.CallSuper;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -90,20 +92,8 @@ public class MainActivity extends AppCompatActivity {
 
 
 
-
     }
 
-    /*
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data){
-        //log("Entered onActivityResult()");
-
-        if( (resultCode == RESULT_OK) & (requestCode == ADD_TODO_ITEM_REQUEST) ){
-           ToDoItem toDoItem = new ToDoItem(data);
-           //mAdapter.add(toDoItem); hay que crearlo
-        }
-    }
-     */
 
     @Override
     public void onResume() {
@@ -121,6 +111,17 @@ public class MainActivity extends AppCompatActivity {
         super.onPause();
 
         //saveItems();
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        log("Entered onActivityResult()");
+
+        if ((resultCode == RESULT_OK) & (requestCode == ADD_TODO_ITEM_REQUEST)) {
+            ShoppingItem sItem = new ShoppingItem(data);
+            mAdapter.add(sItem);
+        }
     }
 
 
