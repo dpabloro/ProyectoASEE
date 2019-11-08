@@ -95,8 +95,8 @@ public class ShoppingAdapter extends RecyclerView.Adapter<ShoppingAdapter.ViewHo
 
             //  Display Time and Date.
             // Hint - use shoppingItem.FORMAT.format(shoppingItem.getDate()) to get date and time String
-            dateView.setText(shoppingItem.FORMAT.format(shoppingItem.getDate()));
-
+           // dateView.setText(shoppingItem.FORMAT.format(shoppingItem.getDate()));
+            dateView.setText(shoppingItem.getDate());
             //  Set up Status CheckBox
             statusView.setChecked(shoppingItem.getStatus() == ShoppingItem.Status.DONE);
 

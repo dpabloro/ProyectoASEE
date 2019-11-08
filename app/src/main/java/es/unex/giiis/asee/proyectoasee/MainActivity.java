@@ -24,6 +24,16 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.io.PrintWriter;
+import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -31,7 +41,7 @@ public class MainActivity extends AppCompatActivity {
     // Add a ToDoItem Request Code
     private static final int ADD_TODO_ITEM_REQUEST = 0;
 
-    private static final String FILE_NAME = "TodoManagerActivityData.txt";
+    private static final String FILE_NAME = "MainActivity.txt";
     private static final String TAG = "MainActivity-UserInterface";
 
     // IDs for menu items
@@ -101,8 +111,13 @@ public class MainActivity extends AppCompatActivity {
 
         // Load saved ToDoItems, if necessary
 
-        //if (mAdapter.getItemCount() == 0)
-         //  loadItems();
+        if (mAdapter.getItemCount() == 0) {
+            try {
+                loadItems();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
 
@@ -110,7 +125,11 @@ public class MainActivity extends AppCompatActivity {
     protected void onPause(){
         super.onPause();
 
-        //saveItems();
+        try {
+            saveItems();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
@@ -151,6 +170,46 @@ public class MainActivity extends AppCompatActivity {
    private void deleteSelected(){
 
    }
+
+
+
+   public void loadItems() throws IOException {
+       BufferedReader reader=null;
+       FileInputStream fileInputStream= openFileInput(FILE_NAME);
+       reader = new BufferedReader(new InputStreamReader(fileInputStream));
+
+       String title=null;
+       String status= null;
+       String date= null;
+
+       while ((title = reader.readLine()) != null){
+            status= reader.readLine();
+            date= reader.readLine();
+            mAdapter.add(new ShoppingItem(title, ShoppingItem.Status.valueOf(status), ShoppingItem.DATE.valueOf(date)));
+       }
+
+        if (reader != null){
+            reader.close();
+        }
+
+   }
+
+
+
+    public void saveItems() throws IOException{
+        PrintWriter printWrite= null;
+
+        FileOutputStream fileOutputStream= openFileOutput(FILE_NAME,MODE_PRIVATE);
+        printWrite= new PrintWriter(new BufferedWriter(new OutputStreamWriter(fileOutputStream)));
+
+        for(int i=0; i< mAdapter.getItemCount(); i++ ){
+            printWrite.println(mAdapter.getItem(i));
+        }
+
+        printWrite.close();
+    }
+
+
 
     private void log(String msg) {
         try {

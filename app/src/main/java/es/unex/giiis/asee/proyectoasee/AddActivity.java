@@ -97,7 +97,7 @@ public class AddActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 log("Entered resetButton.OnClickListener.onClick()");
-                Log.i("Delia","LLEGA AQUÍ");
+
                 // - Reset data fields to default values
                 mTitleText.setText("");
                 Log.i("Delia","LLEGA AQUÍ2");
@@ -115,13 +115,12 @@ public class AddActivity extends AppCompatActivity {
                 log("Entered submitButton.OnClickListener.onClick()");
 
                 // Gather ToDoItem data
+                Log.i("Estela","LLEGA AQUÍ eee");
+                // -  Title
+                String title= mTitleText.getText().toString();
 
                 //-  Get Status
                 Status status = getStatus();
-
-
-                // -  Title
-                String title= mTitleText.getText().toString();
 
                 // - Date
                 String fullDate = dateString+" "+timeString;

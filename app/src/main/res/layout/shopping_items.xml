@@ -34,15 +34,7 @@
         android:layout_toEndOf="@+id/StatusLabel" >
     </CheckBox>
 
-    <TextView
-        android:id="@+id/PriorityLabel"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBaseline="@+id/statusCheckBox"
-        android:layout_alignTop="@+id/StatusLabel"
-        android:layout_toStartOf="@+id/priorityView"
-        android:text="@string/priorityList" >
-    </TextView>
+
 
     <TextView
         android:id="@+id/priorityView"
