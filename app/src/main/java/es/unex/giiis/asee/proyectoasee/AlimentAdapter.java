@@ -1,8 +1,6 @@
 package es.unex.giiis.asee.proyectoasee;
 
 import android.graphics.Color;
-
-import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,30 +8,32 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.TextView;
 
+import androidx.recyclerview.widget.RecyclerView;
+
 import java.util.ArrayList;
 import java.util.List;
 
-public class ShoppingAdapter extends RecyclerView.Adapter<ShoppingAdapter.ViewHolder>  {
-    private final List<ShoppingItem> mItems = new ArrayList<ShoppingItem>();
+public class AlimentAdapter extends RecyclerView.Adapter<AlimentAdapter.ViewHolder>  {
+    private final List<AlimentItem> mItems = new ArrayList<AlimentItem>();
 
     public interface OnItemClickListener {
-        void onItemClick(ShoppingItem item);     //Type of the element to be returned
+        void onItemClick(AlimentItem item);     //Type of the element to be returned
     }
 
     private final OnItemClickListener listener;
 
     // Provide a suitable constructor (depends on the kind of dataset)
-    public ShoppingAdapter(OnItemClickListener listener) {
+    public AlimentAdapter(OnItemClickListener listener) {
 
         this.listener = listener;
     }
 
     // Create new views (invoked by the layout manager)
     @Override
-    public ShoppingAdapter.ViewHolder onCreateViewHolder(ViewGroup parent,
-                                                     int viewType) {
+    public AlimentAdapter.ViewHolder onCreateViewHolder(ViewGroup parent,
+                                                        int viewType) {
         // - Inflate the View for every element
-        View v = (View) LayoutInflater.from(parent.getContext()).inflate(R.layout.shopping_items, parent,false);
+        View v = (View) LayoutInflater.from(parent.getContext()).inflate(R.layout.aliment_items, parent,false);
 
         return new ViewHolder(v);
     }
@@ -50,7 +50,7 @@ public class ShoppingAdapter extends RecyclerView.Adapter<ShoppingAdapter.ViewHo
         return mItems.size();
     }
 
-    public void add(ShoppingItem item) {
+    public void add(AlimentItem item) {
 
         mItems.add(item);
         notifyDataSetChanged();
@@ -80,29 +80,22 @@ public class ShoppingAdapter extends RecyclerView.Adapter<ShoppingAdapter.ViewHo
             super(itemView);
 
             // Get the references to every widget of the Item View
-            title = (TextView) itemView.findViewById(R.id.titleView);
-            statusView = (CheckBox) itemView.findViewById(R.id.statusCheckBox);
-            dateView = (TextView) itemView.findViewById(R.id.dateView);
+            title = (TextView) itemView.findViewById(R.id.titleAliment);
+            statusView = (CheckBox) itemView.findViewById(R.id.alimentCheckBox);
         }
 
-        public void bind(final ShoppingItem shoppingItem, final OnItemClickListener listener) {
+        public void bind(final AlimentItem alimentItem, final OnItemClickListener listener) {
 
             // Display Title in TextView
-            title.setText(shoppingItem.getTitle());
+            title.setText(alimentItem.getTitle());
 
-
-            //  Display Time and Date.
-            // Hint - use shoppingItem.FORMAT.format(shoppingItem.getDate()) to get date and time String
-           // dateView.setText(shoppingItem.FORMAT.format(shoppingItem.getDate()));
-            dateView.setText(shoppingItem.getDate());
             //  Set up Status CheckBox
-            statusView.setChecked(shoppingItem.getStatus() == ShoppingItem.Status.DONE);
-            if (shoppingItem.getStatus() == ShoppingItem.Status.DONE) {
-                shoppingItem.setStatus(ShoppingItem.Status.DONE);
-                title.setBackgroundColor(Color.GREEN);
+            statusView.setChecked(alimentItem.getStatus() == AlimentItem.Status.SELECTED);
+            if (alimentItem.getStatus() == AlimentItem.Status.SELECTED) {
+                title.setBackgroundColor(Color.CYAN);
             } else {
-                shoppingItem.setStatus(ShoppingItem.Status.PENDING);
-                title.setBackgroundColor(Color.YELLOW);
+                alimentItem.setStatus(AlimentItem.Status.NOTSELECTED);
+                title.setBackgroundColor(Color.WHITE);
             }
 
 
@@ -115,11 +108,11 @@ public class ShoppingAdapter extends RecyclerView.Adapter<ShoppingAdapter.ViewHo
                     // TODO - Set up and implement an OnCheckedChangeListener
                     // is called when the user toggles the status checkbox
                     if (isChecked) {
-                        shoppingItem.setStatus(ShoppingItem.Status.DONE);
-                        title.setBackgroundColor(Color.GREEN);
+                        alimentItem.setStatus(AlimentItem.Status.SELECTED);
+                        title.setBackgroundColor(Color.CYAN);
                     } else {
-                        shoppingItem.setStatus(ShoppingItem.Status.PENDING);
-                        title.setBackgroundColor(Color.YELLOW);
+                        alimentItem.setStatus(AlimentItem.Status.NOTSELECTED);
+                        title.setBackgroundColor(Color.WHITE);
                     }
 
                 }
@@ -130,7 +123,7 @@ public class ShoppingAdapter extends RecyclerView.Adapter<ShoppingAdapter.ViewHo
 
                 @Override
                 public void onClick(View v) {
-                    listener.onItemClick(shoppingItem);
+                    listener.onItemClick(alimentItem);
                 }
 
             });

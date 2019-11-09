@@ -22,7 +22,7 @@
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
         android:layout_marginTop="17dp"
-        android:text="@string/statusList" >
+        android:text="Done:" >
     </TextView>
 
     <CheckBox
@@ -49,10 +49,11 @@
         android:id="@+id/DateLabel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
         android:layout_below="@+id/statusCheckBox"
-        android:text="@string/dateList" >
-    </TextView>
+        android:layout_alignParentStart="true"
+        android:layout_marginStart="262dp"
+        android:layout_marginTop="-26dp"
+        android:text="Date: "></TextView>
 
     <TextView
         android:id="@+id/dateView"

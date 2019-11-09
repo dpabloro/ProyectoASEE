@@ -25,15 +25,12 @@ import java.util.Date;
 public class AddActivity extends AppCompatActivity {
 
 
-    // 7 days in milliseconds - 7 * 24 * 60 * 60 * 1000
-    private static final int SEVEN_DAYS = 604800000;
 
     private static final String TAG = "Lab-UserInterface";
 
-    private static String timeString;
     private static String dateString;
     private static TextView dateView;
-    private static TextView timeView;
+
 
 
     private RadioGroup mStatusRadioGroup;
@@ -57,7 +54,7 @@ public class AddActivity extends AppCompatActivity {
         mStatusRadioGroup = (RadioGroup) findViewById(R.id.statusGroup);
         dateView = (TextView) findViewById(R.id.date);
 
-        // Set the default date and time
+        // Set the default date
         setDefaultDate();
 
         // OnClickListener for the Date button, calls showDatePickerDialog() to show
@@ -122,12 +119,10 @@ public class AddActivity extends AppCompatActivity {
                 //-  Get Status
                 Status status = getStatus();
 
-                // - Date
-                String fullDate = dateString+" "+timeString;
 
                 // - Package ToDoItem data into an Intent
                 Intent data = new Intent();
-                ShoppingItem.packageIntent(data,title,status,fullDate);
+                ShoppingItem.packageIntent(data,title,status,dateString);
 
                 // - return data Intent and finish
                 setResult(RESULT_OK,data);

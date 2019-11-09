@@ -95,14 +95,6 @@
         android:layout_marginTop="12dp"
         android:text="@string/noDate" />
 
-    <TextView
-        android:id="@+id/time"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:layout_below="@+id/time_and_date"
-        android:text="@string/noTime" />
-
     <Button
         android:id="@+id/date_picker_button"
         android:layout_width="wrap_content"
@@ -111,27 +103,18 @@
         android:layout_below="@id/date"
         android:text="@string/chooseDate" />
 
+
+    <!-- Buttons -->
+
     <Button
         android:id="@+id/selectAliment"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/date"
         android:layout_alignParentLeft="true"
-        android:layout_marginLeft="7dp"
-        android:layout_marginTop="92dp"
+        android:layout_marginLeft="246dp"
+        android:layout_marginTop="3dp"
         android:text="@string/chooseAliments" />
-
-    <Button
-        android:id="@+id/time_picker_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:layout_alignTop="@id/date_picker_button"
-        android:layout_below="@id/time"
-        android:text="@string/chooseTime" />
-
-
-    <!-- Buttons -->
 
     <Button
         android:id="@+id/cancelButton"

@@ -20,24 +20,18 @@ public class ShoppingItem {
     public final static String TITLE="title";
     public final static String STATUS="status";
     public final static String DATE="date";
-    //public final static String HOUR="hour";
 
     public final static String FILENAME="filename";
-
-    //nuestra zona horaria es como la de italia
-    public final static SimpleDateFormat FORMAT= new SimpleDateFormat("dd-MM-yyyy HH:mm:ss", Locale.ITALY );
 
 
     private String fTitle = new String();
     private Status fStatus = Status.PENDING;
     private String fDate= new String();
-   // private String fHour= new String();
 
     ShoppingItem(String t, Status s, String d){
         this.fTitle=t;
         this.fStatus=s;
         this.fDate=d;
-        //this.fHour=h;
 
 
     }
