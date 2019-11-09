@@ -28,6 +28,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 
+
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.FileInputStream;
@@ -40,6 +41,15 @@ import java.io.PrintWriter;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
+
+import es.unex.giiis.asee.proyectoasee.Interface.JsonPlaceHolderApi;
+import es.unex.giiis.asee.proyectoasee.Model.Posts;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
+
 
 public class AlimentActivity extends AppCompatActivity {
 
@@ -57,6 +67,8 @@ public class AlimentActivity extends AppCompatActivity {
     private RecyclerView rRecyclerView; //(lista de las listas/elementos que tenemos en la aplicacion)
     private RecyclerView.LayoutManager rLayoutManager;
     private AlimentAdapter mAdapter;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -95,7 +107,44 @@ public class AlimentActivity extends AppCompatActivity {
         // Attach the adapter to the RecyclerView
         rRecyclerView.setAdapter(mAdapter);
 
+        getPosts();
     }
+
+    public void getPosts(){
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl("https://www.themealdb.com/api/json/v1/1/")
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+
+        JsonPlaceHolderApi jsonPlaceHolderApi = retrofit.create(JsonPlaceHolderApi.class);
+        Call<List<Posts>> call= jsonPlaceHolderApi.getPosts();
+
+        call.enqueue(new Callback<List<Posts>>() {
+            @Override
+            public void onResponse(Call<List<Posts>> call, Response<List<Posts>> response) {
+                if(! response.isSuccessful()){
+                    log("Codigo" + response.code());
+                    return;
+                }
+
+                List<Posts> postsList= response.body();
+                mAdapter.swap(postsList);
+                for (Posts post: postsList){
+
+                    String name= post.getStrIngredient();
+                }
+
+            }
+
+            @Override
+            public void onFailure(Call<List<Posts>> call, Throwable t) {
+                log( t.getMessage());
+            }
+        });
+
+        }
+
+
 
     @Override
     public void onResume() {

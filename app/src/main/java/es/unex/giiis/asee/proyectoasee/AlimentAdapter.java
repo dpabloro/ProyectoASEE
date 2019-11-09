@@ -13,8 +13,11 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.ArrayList;
 import java.util.List;
 
+import es.unex.giiis.asee.proyectoasee.Model.Posts;
+
 public class AlimentAdapter extends RecyclerView.Adapter<AlimentAdapter.ViewHolder>  {
     private final List<AlimentItem> mItems = new ArrayList<AlimentItem>();
+    private  List<Posts> mDataset;
 
     public interface OnItemClickListener {
         void onItemClick(AlimentItem item);     //Type of the element to be returned
@@ -68,6 +71,12 @@ public class AlimentAdapter extends RecyclerView.Adapter<AlimentAdapter.ViewHold
 
         return mItems.get(pos);
 
+    }
+
+
+    public void swap(List<Posts> dataset){
+        mDataset = dataset;
+        notifyDataSetChanged();
     }
 
     static class ViewHolder extends RecyclerView.ViewHolder {
