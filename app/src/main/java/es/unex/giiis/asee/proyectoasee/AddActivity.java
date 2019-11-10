@@ -54,6 +54,8 @@ public class AddActivity extends AppCompatActivity {
         mStatusRadioGroup = (RadioGroup) findViewById(R.id.statusGroup);
         dateView = (TextView) findViewById(R.id.date);
 
+
+
         // Set the default date
         setDefaultDate();
 
@@ -122,6 +124,7 @@ public class AddActivity extends AppCompatActivity {
 
                 // - Package ToDoItem data into an Intent
                 Intent data = new Intent();
+                dateString=dateView.getText().toString();
                 ShoppingItem.packageIntent(data,title,status,dateString);
 
                 // - return data Intent and finish

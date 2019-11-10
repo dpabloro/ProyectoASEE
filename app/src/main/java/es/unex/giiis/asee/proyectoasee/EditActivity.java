@@ -40,6 +40,8 @@ public class EditActivity extends AppCompatActivity {
 
     Bundle datos;
     String datosobtenidos;
+    String fechaobtenida;
+    String estadoobtenido;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,18 +54,31 @@ public class EditActivity extends AppCompatActivity {
         datosobtenidos= datos.getString("title");
         mTitleText = (EditText) findViewById(R.id.titleIntroducirId);
         mTitleText.setText(datosobtenidos);
-        mDefaultStatusButton = (RadioButton) findViewById(R.id.statusNotDone);
 
-        //String radiosobtenidos= datos.getString("status");
+        fechaobtenida=datos.getString("date");
+        dateView = (TextView) findViewById(R.id.date);
+        dateView.setText(fechaobtenida);
+
+        estadoobtenido=datos.getString("status".toString());
+        log("el estado de la lista es "+estadoobtenido);
+
+
         mStatusRadioGroup = (RadioGroup) findViewById(R.id.statusGroup);
 
+        //String radiosobtenidos= datos.getString("status");
+        if (estadoobtenido.equals("DONE")) {
+            mDefaultStatusButton = (RadioButton) findViewById(R.id.statusDone);
+            mStatusRadioGroup.check(mDefaultStatusButton.getId());
+        }
+        else {
+            mDefaultStatusButton = (RadioButton) findViewById(R.id.statusNotDone);
+            mStatusRadioGroup.check(mDefaultStatusButton.getId());
+
+        }
 
 
 
-        dateView = (TextView) findViewById(R.id.date);
 
-        // Set the default date
-        setDefaultDate();
 
         // OnClickListener for the Date button, calls showDatePickerDialog() to show
         // the Date dialog
@@ -105,7 +120,8 @@ public class EditActivity extends AppCompatActivity {
 
                 // - Reset data fields to default values
                 mTitleText.setText("");
-                Log.i("Delia","LLEGA AQUÍ2");
+
+                mDefaultStatusButton = (RadioButton) findViewById(R.id.statusNotDone);
 
                 mStatusRadioGroup.check(mDefaultStatusButton.getId());
                 setDefaultDate();
@@ -120,7 +136,6 @@ public class EditActivity extends AppCompatActivity {
                 log("Entered submitButton.OnClickListener.onClick()");
 
                 // Gather ToDoItem data
-                Log.i("Estela","LLEGA AQUÍ eee");
                 // -  Title
                 String title= mTitleText.getText().toString();
                 Intent data= getIntent();

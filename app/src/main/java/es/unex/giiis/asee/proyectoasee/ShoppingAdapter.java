@@ -14,7 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ShoppingAdapter extends RecyclerView.Adapter<ShoppingAdapter.ViewHolder>  {
-    private final List<ShoppingItem> mItems = new ArrayList<ShoppingItem>();
+    private ArrayList<ShoppingItem> mItems = new ArrayList<ShoppingItem>();
 
     public interface OnItemClickListener {
         void onItemClick(ShoppingItem item);     //Type of the element to be returned

@@ -20,6 +20,7 @@
     <string name="cancelButton">Cancel </string>
     <string name="resetButton">Reset </string>
     <string name="submitButton">Save </string>
+    <string name="search">search</string>
 
 
 </resources>

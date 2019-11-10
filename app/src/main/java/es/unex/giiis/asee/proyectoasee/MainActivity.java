@@ -2,6 +2,7 @@ package es.unex.giiis.asee.proyectoasee;
 
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.view.MenuItemCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -14,6 +15,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.RadioGroup;
+import android.widget.SearchView;
 import android.widget.TextView;
 
 import androidx.appcompat.widget.Toolbar;
@@ -49,7 +51,7 @@ public class MainActivity extends AppCompatActivity {
     private static final int MENU_SELECTED = Menu.FIRST+1;
 
     //Lista de lista de la compra
-    private final List<ShoppingItem> listaItems = new ArrayList<ShoppingItem>();
+    private final ArrayList<ShoppingItem> listaItems = new ArrayList<ShoppingItem>();
 
     private RecyclerView rRecyclerView; //(lista de las listas/elementos que tenemos en la aplicacion)
     private RecyclerView.LayoutManager rLayoutManager;
@@ -63,6 +65,8 @@ public class MainActivity extends AppCompatActivity {
 
     private RadioGroup mStatusRadioGroup;
     private EditText mTitleText;
+
+    SearchView mySearchView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -183,6 +187,7 @@ public class MainActivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu){
         super.onCreateOptionsMenu(menu);
 
+
         menu.add(Menu.NONE, MENU_DELETE, Menu.NONE, "Delete all");
         menu.add(Menu.NONE, MENU_SELECTED, Menu.NONE, "Delete selected");
         return true;
@@ -254,5 +259,6 @@ public class MainActivity extends AppCompatActivity {
         }
         Log.i(TAG, msg);
     }
+
 
 }
