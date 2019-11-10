@@ -1,28 +1,27 @@
 package es.unex.giiis.asee.proyectoasee;
 
-import androidx.annotation.CallSuper;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.annotation.SuppressLint;
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.EditText;
+import android.widget.RadioGroup;
+import android.widget.TextView;
+
 import androidx.appcompat.widget.Toolbar;
 
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProvider;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
+
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.snackbar.Snackbar;
+
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -33,13 +32,14 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
-import java.sql.Date;
+
 import java.util.ArrayList;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
     // Add a ToDoItem Request Code
     private static final int ADD_TODO_ITEM_REQUEST = 0;
+    private static final int EDIT_SHOPPING_ITEM_REQUEST = 0;
 
     private static final String FILE_NAME = "MainActivity.txt";
     private static final String TAG = "MainActivity-UserInterface";
@@ -54,6 +54,15 @@ public class MainActivity extends AppCompatActivity {
     private RecyclerView rRecyclerView; //(lista de las listas/elementos que tenemos en la aplicacion)
     private RecyclerView.LayoutManager rLayoutManager;
     private ShoppingAdapter mAdapter;
+
+
+
+    private static TextView dateView;
+
+
+
+    private RadioGroup mStatusRadioGroup;
+    private EditText mTitleText;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -93,7 +102,23 @@ public class MainActivity extends AppCompatActivity {
          mAdapter = new ShoppingAdapter(new ShoppingAdapter.OnItemClickListener(){
             @Override
             public void onItemClick(ShoppingItem item){
-                Snackbar.make(MainActivity.this.getCurrentFocus(),"Item" + item.getTitle()+" clicked", Snackbar.LENGTH_LONG);
+                Intent intent= new Intent(MainActivity.this, EditActivity.class);
+
+                String title= item.getTitle();
+
+                //-  Get Status
+                ShoppingItem.Status status = item.getStatus();
+
+                String dateString= item.getDate();
+                ShoppingItem.packageIntent(intent,title,status,dateString);
+
+
+
+
+                startActivityForResult(intent, EDIT_SHOPPING_ITEM_REQUEST );
+
+                log("DA CLICK EN LISTA");
+
             }
         });
 
@@ -103,7 +128,17 @@ public class MainActivity extends AppCompatActivity {
 
 
     }
+    private ShoppingItem.Status getStatus() {
 
+        switch (mStatusRadioGroup.getCheckedRadioButtonId()) {
+            case R.id.statusDone: {
+                return ShoppingItem.Status.DONE;
+            }
+            default: {
+                return ShoppingItem.Status.PENDING;
+            }
+        }
+    }
 
     @Override
     public void onResume() {
