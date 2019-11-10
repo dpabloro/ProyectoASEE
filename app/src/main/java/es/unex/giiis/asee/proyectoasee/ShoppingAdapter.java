@@ -8,13 +8,16 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
+import android.widget.Filter;
+import android.widget.Filterable;
 import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class ShoppingAdapter extends RecyclerView.Adapter<ShoppingAdapter.ViewHolder>  {
+public class ShoppingAdapter extends RecyclerView.Adapter<ShoppingAdapter.ViewHolder> {
     private ArrayList<ShoppingItem> mItems = new ArrayList<ShoppingItem>();
+
 
     public interface OnItemClickListener {
         void onItemClick(ShoppingItem item);     //Type of the element to be returned
@@ -64,6 +67,12 @@ public class ShoppingAdapter extends RecyclerView.Adapter<ShoppingAdapter.ViewHo
 
     }
 
+    public ArrayList<ShoppingItem> getItems(){
+        ArrayList<ShoppingItem> shoppingItems=new ArrayList<>();
+        shoppingItems=mItems;
+        return shoppingItems;
+
+    }
     public Object getItem(int pos) {
 
         return mItems.get(pos);
@@ -135,5 +144,24 @@ public class ShoppingAdapter extends RecyclerView.Adapter<ShoppingAdapter.ViewHo
 
             });
         }
+    }
+
+    public void filtrar(ArrayList<ShoppingItem> shoppingItems,String texto) {
+        ArrayList<ShoppingItem> filtrarLista = new ArrayList<>();
+
+        if(!texto.isEmpty()) {
+            this.mItems=shoppingItems;
+
+            for (ShoppingItem shoppingItem : mItems) {
+                if (shoppingItem.getTitle().toLowerCase().contains(texto.toLowerCase())) {
+                    filtrarLista.add(shoppingItem);
+                }
+            }
+
+            this.mItems = filtrarLista;
+        } else
+            this.mItems=shoppingItems;
+        notifyDataSetChanged();
+
     }
 }

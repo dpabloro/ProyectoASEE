@@ -9,6 +9,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -51,7 +53,7 @@ public class MainActivity extends AppCompatActivity {
     private static final int MENU_SELECTED = Menu.FIRST+1;
 
     //Lista de lista de la compra
-    private final ArrayList<ShoppingItem> listaItems = new ArrayList<ShoppingItem>();
+    private ArrayList<ShoppingItem> listaItems = new ArrayList<ShoppingItem>();
 
     private RecyclerView rRecyclerView; //(lista de las listas/elementos que tenemos en la aplicacion)
     private RecyclerView.LayoutManager rLayoutManager;
@@ -66,12 +68,14 @@ public class MainActivity extends AppCompatActivity {
     private RadioGroup mStatusRadioGroup;
     private EditText mTitleText;
 
-    SearchView mySearchView;
+    EditText searchInput;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+
 
         //Establecemos la toolbar
         Toolbar Mytoolbar= (Toolbar) findViewById(R.id.toolbar);
@@ -129,8 +133,33 @@ public class MainActivity extends AppCompatActivity {
         // Attach the adapter to the RecyclerView
         rRecyclerView.setAdapter(mAdapter);
 
+        listaItems=mAdapter.getItems();
+        searchInput=findViewById(R.id.search_input);
+
+        searchInput.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                filtrar(listaItems,s.toString());
+            }
+        });
 
 
+
+    }
+
+    public void filtrar(ArrayList<ShoppingItem> shoppingItems,String texto) {
+
+        mAdapter.filtrar(shoppingItems,texto);
     }
     private ShoppingItem.Status getStatus() {
 
