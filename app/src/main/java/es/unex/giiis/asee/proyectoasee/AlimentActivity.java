@@ -23,6 +23,7 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 import retrofit2.http.GET;
 import retrofit2.http.Path;
+import retrofit2.http.Query;
 
 
 public class AlimentActivity extends AppCompatActivity implements AlimentAdapter.OnListInteractionListener{
@@ -42,8 +43,8 @@ public class AlimentActivity extends AppCompatActivity implements AlimentAdapter
     private AlimentAdapter mAdapter;
 
     public interface JsonPlaceHolderApi {
-        @GET("api/json/v1/1/{consulta}")
-        Call<List<Posts>> getPosts(@Path("consulta") String consulta);
+        @GET("1/{consulta}")
+        Call<SchemaPosts> getPosts(@Path("consulta" ) String consulta, @Query("i") String i);
     }
 
 
@@ -82,22 +83,30 @@ public class AlimentActivity extends AppCompatActivity implements AlimentAdapter
 
     public void getPosts(){
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("https://www.themealdb.com/")
+                .baseUrl("https://www.themealdb.com/api/json/v1/")
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
-
+        Log.i("FastCart","titleIngredient: DIMEEEE ALGO PRIMER ");
         JsonPlaceHolderApi jsonPlaceHolderApi = retrofit.create(JsonPlaceHolderApi.class);
-        Call<List<Posts>> call= jsonPlaceHolderApi.getPosts("list.php?i=list");
 
-        call.enqueue(new Callback<List<Posts>>() {
+        Call<SchemaPosts> call= jsonPlaceHolderApi.getPosts("list.php", "list");
+
+        Log.i("FastCart","titleIngredient: DIMEEEE ALGO  1");
+        call.enqueue(new Callback<SchemaPosts>() {
             @Override
-            public void onResponse(Call<List<Posts>> call, Response<List<Posts>> response) {
+            public void onResponse(Call<SchemaPosts> call, Response<SchemaPosts> response) {
+
+                Log.i("FastCartIF","titleIngredient: antes de IF");
                 if(response.isSuccessful()){
-                    List<Posts> postsList= response.body();
-                    mAdapter.swap(postsList);
-                    for (Posts post: postsList){
+                    Log.i("FastCart","titleIngredient: DIMEEEE ALGO2  ");
+
+                    List<Posts> postsL= response.body().getListPosts();
+                    Log.i("FastCart","titleIngredient: DIMEEEE ALGO 3 ");
+                    mAdapter.swap(postsL);
+                    for (Posts post: postsL){
                         String name= post.getStrIngredient();
                         Log.i("FastCart","titleIngredient: "+name);
+
                     }
                 } else{
                     Log.i("FastCart","NO RESPONSE");
@@ -106,8 +115,8 @@ public class AlimentActivity extends AppCompatActivity implements AlimentAdapter
             }
 
             @Override
-            public void onFailure(Call<List<Posts>> call, Throwable t) {
-                Log.d("Error",t.getMessage());
+            public void onFailure(Call<SchemaPosts> call, Throwable t) {
+                Log.d("FastCart",t.getMessage());
             }
         });
 
