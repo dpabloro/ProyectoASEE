@@ -24,7 +24,7 @@ import java.util.Calendar;
 
 import es.unex.giiis.asee.proyectoasee.ShoppingItem.Status;
 
-public class EditActivity extends AppCompatActivity  {
+public class EditActivity extends AppCompatActivity  implements AlimentAdapter.OnListInteractionListener {
 
 
 
@@ -75,11 +75,13 @@ public class EditActivity extends AppCompatActivity  {
 
 
         Intent intent= getIntent();
-        ArrayList<Posts> listPost = (ArrayList<Posts>) intent.getSerializableExtra("SELECTED");
+       ArrayList<Posts> listPost = (ArrayList<Posts>) intent.getSerializableExtra("selectedItem");
+        //ArrayList<Posts> listPost=new ArrayList<Posts>();
+      // Posts postsPrueba=new Posts("Pollo");
 
-
+      // listPost.add(postsPrueba);
         // Creamos un adapatador para el RecyclerView
-        mAdapter=new AlimentAdapter(listPost, (AlimentAdapter.OnListInteractionListener) this);
+        mAdapter=new AlimentAdapter(listPost, this);
         // Attach the adapter to the RecyclerView
         rRecyclerView.setAdapter(mAdapter);
 
@@ -205,6 +207,11 @@ public class EditActivity extends AppCompatActivity  {
     private void showDatePickerDialog() {
         DialogFragment newFragment = new DatePickerFragment();
         newFragment.show(getFragmentManager(),"datePicker");
+
+    }
+
+    @Override
+    public void onListInteraction(String url) {
 
     }
 

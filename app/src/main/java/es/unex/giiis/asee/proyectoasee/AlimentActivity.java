@@ -37,7 +37,7 @@ import java.util.List;
 public class AlimentActivity extends AppCompatActivity implements AlimentAdapter.OnListInteractionListener{
 
     // Add a ToDoItem Request Code
-    private static final int ADD_TODO_ITEM_REQUEST = 0;
+    private static final int ALIMENT_OK = 0;
     private static final String TAG = "AlimentActivity-UserInterface";
 
 
@@ -101,8 +101,9 @@ public class AlimentActivity extends AppCompatActivity implements AlimentAdapter
 
                 Posts.packageIntent(data, listSeleccionado);
 
-
-                startActivityForResult(data, RESULT_OK );
+                // - return data Intent and finish
+                setResult(RESULT_OK,data);
+                finish();
 
             }
         });
