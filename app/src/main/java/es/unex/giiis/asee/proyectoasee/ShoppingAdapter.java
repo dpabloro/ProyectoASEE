@@ -3,6 +3,8 @@ package es.unex.giiis.asee.proyectoasee;
 import android.graphics.Color;
 
 import androidx.recyclerview.widget.RecyclerView;
+
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,6 +19,8 @@ import java.util.List;
 
 public class ShoppingAdapter extends RecyclerView.Adapter<ShoppingAdapter.ViewHolder> {
     private ArrayList<ShoppingItem> mItems = new ArrayList<ShoppingItem>();
+
+    private static final String TAG = "ShoppingAdapter-UserInterface";
 
 
     public interface OnItemClickListener {
@@ -82,7 +86,7 @@ public class ShoppingAdapter extends RecyclerView.Adapter<ShoppingAdapter.ViewHo
     static class ViewHolder extends RecyclerView.ViewHolder {
 
         private TextView title;
-        private CheckBox statusView;
+        private TextView statusView;
         private TextView dateView;
 
         public ViewHolder(View itemView) {
@@ -90,7 +94,7 @@ public class ShoppingAdapter extends RecyclerView.Adapter<ShoppingAdapter.ViewHo
 
             // Get the references to every widget of the Item View
             title = (TextView) itemView.findViewById(R.id.titleView);
-            statusView = (CheckBox) itemView.findViewById(R.id.statusCheckBox);
+            statusView = (TextView) itemView.findViewById(R.id.statusView);
             dateView = (TextView) itemView.findViewById(R.id.dateView);
         }
 
@@ -104,35 +108,18 @@ public class ShoppingAdapter extends RecyclerView.Adapter<ShoppingAdapter.ViewHo
             // Hint - use shoppingItem.FORMAT.format(shoppingItem.getDate()) to get date and time String
            // dateView.setText(shoppingItem.FORMAT.format(shoppingItem.getDate()));
             dateView.setText(shoppingItem.getDate());
+
             //  Set up Status CheckBox
-            statusView.setChecked(shoppingItem.getStatus() == ShoppingItem.Status.DONE);
+            statusView.setText(shoppingItem.getStatus().toString());
+            Log.i(TAG,"EL ITEM EEEESS: "+ shoppingItem.toString());
             if (shoppingItem.getStatus() == ShoppingItem.Status.DONE) {
-                shoppingItem.setStatus(ShoppingItem.Status.DONE);
                 title.setBackgroundColor(Color.GREEN);
             } else {
-                shoppingItem.setStatus(ShoppingItem.Status.PENDING);
                 title.setBackgroundColor(Color.YELLOW);
             }
 
 
-            statusView.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-                @Override
-                public void onCheckedChanged(CompoundButton buttonView,
-                                             boolean isChecked) {
 
-
-                    // TODO - Set up and implement an OnCheckedChangeListener
-                    // is called when the user toggles the status checkbox
-                    if (isChecked) {
-                        shoppingItem.setStatus(ShoppingItem.Status.DONE);
-                        title.setBackgroundColor(Color.GREEN);
-                    } else {
-                        shoppingItem.setStatus(ShoppingItem.Status.PENDING);
-                        title.setBackgroundColor(Color.YELLOW);
-                    }
-
-                }
-            });
 
 
             itemView.setOnClickListener(new View.OnClickListener() {
@@ -153,9 +140,14 @@ public class ShoppingAdapter extends RecyclerView.Adapter<ShoppingAdapter.ViewHo
             this.mItems=shoppingItems;
 
             for (ShoppingItem shoppingItem : mItems) {
+                ShoppingItem.Status shoppingItemStatus= shoppingItem.getStatus();
+
+                Log.i(TAG,"EL ITEM EEEESS: "+ shoppingItem.toString()+" Y SU ESTADO ESSS: "+shoppingItemStatus.toString());
+
                 if (shoppingItem.getTitle().toLowerCase().contains(texto.toLowerCase())) {
                     filtrarLista.add(shoppingItem);
                 }
+
             }
 
             this.mItems = filtrarLista;
@@ -164,4 +156,5 @@ public class ShoppingAdapter extends RecyclerView.Adapter<ShoppingAdapter.ViewHo
         notifyDataSetChanged();
 
     }
+
 }

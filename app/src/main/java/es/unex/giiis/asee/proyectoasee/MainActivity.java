@@ -161,17 +161,7 @@ public class MainActivity extends AppCompatActivity {
 
         mAdapter.filtrar(shoppingItems,texto);
     }
-    private ShoppingItem.Status getStatus() {
 
-        switch (mStatusRadioGroup.getCheckedRadioButtonId()) {
-            case R.id.statusDone: {
-                return ShoppingItem.Status.DONE;
-            }
-            default: {
-                return ShoppingItem.Status.PENDING;
-            }
-        }
-    }
 
     @Override
     public void onResume() {

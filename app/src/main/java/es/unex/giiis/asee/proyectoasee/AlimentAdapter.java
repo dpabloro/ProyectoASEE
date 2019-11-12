@@ -11,7 +11,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class AlimentAdapter extends RecyclerView.Adapter<AlimentAdapter.MyViewHolder>  {
-    private final List<AlimentItem> mItems = new ArrayList<AlimentItem>();
     private  List<Posts> mDataset;
 
 

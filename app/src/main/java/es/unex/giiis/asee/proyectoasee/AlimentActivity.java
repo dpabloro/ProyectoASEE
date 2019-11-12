@@ -12,13 +12,25 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.util.Log;
+import android.widget.Toast;
+
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
+import com.google.gson.JsonArray;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
-import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 import retrofit2.http.GET;
@@ -30,28 +42,33 @@ public class AlimentActivity extends AppCompatActivity implements AlimentAdapter
 
     // Add a ToDoItem Request Code
     private static final int ADD_TODO_ITEM_REQUEST = 0;
-
-    private static final String FILE_NAME = "AlimentActivity.txt";
     private static final String TAG = "AlimentActivity-UserInterface";
 
 
+    private static final String FILE_NAME = "AlimentActivity.txt";
+
+    private RequestQueue queue;
 
 
+    private ArrayList<Posts> listaItems = new ArrayList<Posts>();
 
     private RecyclerView rRecyclerView; //(lista de las listas/elementos que tenemos en la aplicacion)
     private RecyclerView.LayoutManager rLayoutManager;
     private AlimentAdapter mAdapter;
 
-    public interface JsonPlaceHolderApi {
-        @GET("1/{consulta}")
-        Call<SchemaPosts> getPosts(@Path("consulta" ) String consulta, @Query("i") String i);
-    }
+
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_aliments);
+
+        queue = Volley.newRequestQueue(this);
+
+        getPosts();
+
+
 
         //Establecemos la toolbar
         Toolbar Mytoolbar= (Toolbar) findViewById(R.id.toolbar);
@@ -71,56 +88,66 @@ public class AlimentActivity extends AppCompatActivity implements AlimentAdapter
         rRecyclerView.setLayoutManager(rLayoutManager);
 
 
-        List<Posts> myDataSet=new ArrayList<Posts>();
-        // Creamos un adapatador para el RecyclerView
-        mAdapter=new AlimentAdapter(myDataSet, this);
+    }
 
+    private void getPosts(){
+        String url = "https://www.themealdb.com/api/json/v1/1/list.php?i=list";
+
+        JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+
+                try {
+                    JSONArray mJsonArray = response.getJSONArray("meals");
+
+                    for (int i=0; i<mJsonArray.length();i++){
+                        JSONObject mJsonObject = mJsonArray.getJSONObject(i);
+                        String name = mJsonObject.getString("strIngredient");
+                        Posts post=new Posts(name);
+                        listaItems.add(post);
+
+                    }
+
+
+
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                cargarAdapter();
+            }
+
+        },
+
+
+                new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+            }
+
+        });
+
+        queue.add(request);
+    }
+
+    private void cargarAdapter() {
+
+        // Creamos un adapatador para el RecyclerView
+        mAdapter=new AlimentAdapter(listaItems, this);
         // Attach the adapter to the RecyclerView
         rRecyclerView.setAdapter(mAdapter);
 
-        getPosts();
     }
 
-    public void getPosts(){
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("https://www.themealdb.com/api/json/v1/")
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
-        Log.i("FastCart","titleIngredient: DIMEEEE ALGO PRIMER ");
-        JsonPlaceHolderApi jsonPlaceHolderApi = retrofit.create(JsonPlaceHolderApi.class);
 
-        Call<SchemaPosts> call= jsonPlaceHolderApi.getPosts("list.php", "list");
-
-        Log.i("FastCart","titleIngredient: DIMEEEE ALGO  1");
-        call.enqueue(new Callback<SchemaPosts>() {
-            @Override
-            public void onResponse(Call<SchemaPosts> call, Response<SchemaPosts> response) {
-
-                Log.i("FastCartIF","titleIngredient: antes de IF");
-                if(response.isSuccessful()){
-                    Log.i("FastCart","titleIngredient: DIMEEEE ALGO2  ");
-
-                    List<Posts> postsL= response.body().getListPosts();
-                    Log.i("FastCart","titleIngredient: DIMEEEE ALGO 3 ");
-                    mAdapter.swap(postsL);
-                    for (Posts post: postsL){
-                        String name= post.getStrIngredient();
-                        Log.i("FastCart","titleIngredient: "+name);
-
-                    }
-                } else{
-                    Log.i("FastCart","NO RESPONSE");
-                }
-
-            }
-
-            @Override
-            public void onFailure(Call<SchemaPosts> call, Throwable t) {
-                Log.d("FastCart",t.getMessage());
-            }
-        });
-
+    private void log(String msg) {
+        try {
+            Thread.sleep(500);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
         }
+        Log.i(TAG, msg);
+    }
 
     @Override
     public void onListInteraction(String url) {
