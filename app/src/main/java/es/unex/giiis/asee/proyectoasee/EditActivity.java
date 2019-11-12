@@ -16,12 +16,15 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 
 import es.unex.giiis.asee.proyectoasee.ShoppingItem.Status;
 
-public class EditActivity extends AppCompatActivity {
+public class EditActivity extends AppCompatActivity  {
 
 
 
@@ -37,6 +40,10 @@ public class EditActivity extends AppCompatActivity {
     private RadioButton mDefaultStatusButton;
 
     private static final int ADD_ALIMENT_REQUEST = 0;
+    private RecyclerView rRecyclerView; //(lista de las listas/elementos seleccionados en la aplicacion)
+    private RecyclerView.LayoutManager rLayoutManager;
+    private AlimentAdapter mAdapter;
+
 
     Bundle datos;
     String datosobtenidos;
@@ -49,6 +56,32 @@ public class EditActivity extends AppCompatActivity {
         setContentView(R.layout.activity_editlist);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+
+
+        //Obtenemos la referencia del RecyclerView
+        rRecyclerView= (RecyclerView) findViewById(R.id.my_recycler_viewSelected);
+
+
+        //Usa esta configuracion para mejorar el rendimiento si sabes
+        //que el contenido no cambia el tamaño del layout del RecyclerView
+        rRecyclerView.setHasFixedSize(true);
+
+        //Usamos un linear layout manager
+        rLayoutManager = new LinearLayoutManager(this);
+        //Ponemos el linear layout manager al Recycler View
+        rRecyclerView.setLayoutManager(rLayoutManager);
+
+
+
+        Intent intent= getIntent();
+        ArrayList<Posts> listPost = (ArrayList<Posts>) intent.getSerializableExtra("SELECTED");
+
+
+        // Creamos un adapatador para el RecyclerView
+        mAdapter=new AlimentAdapter(listPost, (AlimentAdapter.OnListInteractionListener) this);
+        // Attach the adapter to the RecyclerView
+        rRecyclerView.setAdapter(mAdapter);
 
         datos= getIntent().getExtras();
         datosobtenidos= datos.getString("title");

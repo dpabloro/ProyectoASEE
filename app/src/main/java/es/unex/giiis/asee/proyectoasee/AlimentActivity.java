@@ -12,7 +12,9 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.util.Log;
-import android.widget.Toast;
+import android.view.View;
+import android.widget.Button;
+
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -29,13 +31,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
-import retrofit2.http.GET;
-import retrofit2.http.Path;
-import retrofit2.http.Query;
+
 
 
 public class AlimentActivity extends AppCompatActivity implements AlimentAdapter.OnListInteractionListener{
@@ -68,8 +64,6 @@ public class AlimentActivity extends AppCompatActivity implements AlimentAdapter
 
         getPosts();
 
-
-
         //Establecemos la toolbar
         Toolbar Mytoolbar= (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(Mytoolbar);
@@ -86,6 +80,33 @@ public class AlimentActivity extends AppCompatActivity implements AlimentAdapter
         rLayoutManager = new LinearLayoutManager(this);
         //Ponemos el linear layout manager al Recycler View
         rRecyclerView.setLayoutManager(rLayoutManager);
+
+
+        final Button submitButton = (Button) findViewById(R.id.saveAlimentButton);
+        submitButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                log("Entered submitButton.OnClickListener.onClick()");
+
+                Intent data= new Intent(AlimentActivity.this, EditActivity.class);
+
+                ArrayList<Posts> listSeleccionado= new ArrayList<Posts>();
+                // Gather ToDoItem data
+                // -  Title
+                listSeleccionado=mAdapter.getSelected();
+
+
+
+                // - Package ToDoItem data into an Intent
+
+                Posts.packageIntent(data, listSeleccionado);
+
+
+                startActivityForResult(data, RESULT_OK );
+
+            }
+        });
+
 
 
     }
@@ -137,7 +158,10 @@ public class AlimentActivity extends AppCompatActivity implements AlimentAdapter
         // Attach the adapter to the RecyclerView
         rRecyclerView.setAdapter(mAdapter);
 
+        log("TAMANOOO LISTA" + listaItems.size());
+
     }
+
 
 
     private void log(String msg) {
@@ -155,4 +179,15 @@ public class AlimentActivity extends AppCompatActivity implements AlimentAdapter
         Intent webIntent = new Intent(Intent.ACTION_VIEW, webpage);
         startActivity(webIntent);
     }
+
+
+
+
+
+
+
+
+
+
+
 }

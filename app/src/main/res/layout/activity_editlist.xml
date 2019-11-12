@@ -27,6 +27,13 @@
 
     </com.google.android.material.appbar.AppBarLayout>
 
-    <include layout="@layout/content_editlist" />
+    <include
+        layout="@layout/content_editlist"
+        app:layout_anchor="@+id/include"
+        app:layout_anchorGravity="center" />
+
+    <include
+        android:id="@+id/include"
+        layout="@layout/content_selected" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
