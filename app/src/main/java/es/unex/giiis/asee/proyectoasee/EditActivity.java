@@ -44,6 +44,7 @@ public class EditActivity extends AppCompatActivity  implements AlimentAdapter.O
     private RecyclerView.LayoutManager rLayoutManager;
     private AlimentAdapter mAdapter;
 
+    private ArrayList<Posts> listPost=new ArrayList<Posts>();
 
     Bundle datos;
     String datosobtenidos;
@@ -75,7 +76,7 @@ public class EditActivity extends AppCompatActivity  implements AlimentAdapter.O
 
 
         Intent intent= getIntent();
-       ArrayList<Posts> listPost = (ArrayList<Posts>) intent.getSerializableExtra("selectedItem");
+       listPost = (ArrayList<Posts>) intent.getSerializableExtra("selectedItem");
         //ArrayList<Posts> listPost=new ArrayList<Posts>();
       // Posts postsPrueba=new Posts("Pollo");
 
@@ -180,9 +181,10 @@ public class EditActivity extends AppCompatActivity  implements AlimentAdapter.O
                 Status status = getStatus();
 
 
+
                 // - Package ToDoItem data into an Intent
 
-                ShoppingItem.packageIntent(data,title,status,dateString);
+                ShoppingItem.packageIntent(data,title,status,dateString,listPost);
 
                 // - return data Intent and finish
                 setResult(RESULT_OK,data);

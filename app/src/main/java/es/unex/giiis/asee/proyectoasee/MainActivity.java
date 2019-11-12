@@ -118,7 +118,8 @@ public class MainActivity extends AppCompatActivity {
                 ShoppingItem.Status status = item.getStatus();
 
                 String dateString= item.getDate();
-                ShoppingItem.packageIntent(intent,title,status,dateString);
+                ArrayList<Posts> listaAlimentos=item.getfAlimentos();
+                ShoppingItem.packageIntent(intent,title,status,dateString,listaAlimentos);
 
 
 

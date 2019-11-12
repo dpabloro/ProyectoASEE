@@ -88,7 +88,7 @@ public class AlimentActivity extends AppCompatActivity implements AlimentAdapter
             public void onClick(View v) {
                 log("Entered submitButton.OnClickListener.onClick()");
 
-                Intent data= new Intent(AlimentActivity.this, EditActivity.class);
+                Intent data= new Intent(AlimentActivity.this, AddActivity.class);
 
                 ArrayList<Posts> listSeleccionado= new ArrayList<Posts>();
                 // Gather ToDoItem data

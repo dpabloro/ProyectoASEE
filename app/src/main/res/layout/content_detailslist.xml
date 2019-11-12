@@ -116,6 +116,10 @@
         android:layout_marginTop="3dp"
         android:text="@string/chooseAliments" />
 
+    <include
+        android:id="@+id/include"
+        layout="@layout/content_selected_add" />
+
     <Button
         android:id="@+id/cancelButton"
         android:layout_width="wrap_content"

@@ -15,14 +15,18 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import android.app.DialogFragment;
 import android.app.DatePickerDialog;
 import es.unex.giiis.asee.proyectoasee.ShoppingItem.Status;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 
-public class AddActivity extends AppCompatActivity {
+public class AddActivity extends AppCompatActivity implements AlimentAdapter.OnListInteractionListener{
 
 
 
@@ -31,11 +35,14 @@ public class AddActivity extends AppCompatActivity {
     private static String dateString;
     private static TextView dateView;
 
-
+    private RecyclerView rRecyclerView; //(lista de las listas/elementos seleccionados en la aplicacion)
+    private RecyclerView.LayoutManager rLayoutManager;
+    private AlimentAdapter mAdapter;
 
     private RadioGroup mStatusRadioGroup;
     private EditText mTitleText;
     private RadioButton mDefaultStatusButton;
+    private ArrayList<Posts> listPost;
 
     private static final int ADD_ALIMENT_REQUEST = 0;
 
@@ -58,6 +65,7 @@ public class AddActivity extends AppCompatActivity {
 
         // Set the default date
         setDefaultDate();
+
 
         // OnClickListener for the Date button, calls showDatePickerDialog() to show
         // the Date dialog
@@ -121,11 +129,13 @@ public class AddActivity extends AppCompatActivity {
                 //-  Get Status
                 Status status = getStatus();
 
+                ArrayList<Posts> listaAlimentos=listPost;
+
 
                 // - Package ToDoItem data into an Intent
                 Intent data = new Intent();
                 dateString=dateView.getText().toString();
-                ShoppingItem.packageIntent(data,title,status,dateString);
+                ShoppingItem.packageIntent(data,title,status,dateString,listaAlimentos);
 
                 // - return data Intent and finish
                 setResult(RESULT_OK,data);
@@ -133,6 +143,33 @@ public class AddActivity extends AppCompatActivity {
 
             }
         });
+
+        //Obtenemos la referencia del RecyclerView
+        rRecyclerView= (RecyclerView) findViewById(R.id.my_recycler_viewSelectedAdd);
+
+
+        //Usa esta configuracion para mejorar el rendimiento si sabes
+        //que el contenido no cambia el tamaño del layout del RecyclerView
+        rRecyclerView.setHasFixedSize(true);
+
+        //Usamos un linear layout manager
+        rLayoutManager = new LinearLayoutManager(this);
+        //Ponemos el linear layout manager al Recycler View
+        rRecyclerView.setLayoutManager(rLayoutManager);
+
+        if(getIntent().getExtras()!=null){
+            Intent intent= getIntent();
+            listPost = (ArrayList<Posts>) intent.getSerializableExtra("selectedItem");
+            //ArrayList<Posts> listPost=new ArrayList<Posts>();
+            // Posts postsPrueba=new Posts("Pollo");
+
+            // listPost.add(postsPrueba);
+            // Creamos un adapatador para el RecyclerView
+            mAdapter=new AlimentAdapter(listPost, this);
+            // Attach the adapter to the RecyclerView
+            rRecyclerView.setAdapter(mAdapter);
+        }
+
 
         final Button AlimentsButton = (Button) findViewById(R.id.selectAliment);
         AlimentsButton.setOnClickListener(new View.OnClickListener(){
@@ -150,6 +187,11 @@ public class AddActivity extends AppCompatActivity {
     private void showDatePickerDialog() {
         DialogFragment newFragment = new DatePickerFragment();
         newFragment.show(getFragmentManager(),"datePicker");
+
+    }
+
+    @Override
+    public void onListInteraction(String url) {
 
     }
 
