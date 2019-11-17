@@ -88,7 +88,7 @@ public class AlimentActivity extends AppCompatActivity implements AlimentAdapter
             public void onClick(View v) {
                 log("Entered submitButton.OnClickListener.onClick()");
 
-                Intent data= new Intent(AlimentActivity.this, AddActivity.class);
+                Intent data= new Intent();
 
                 ArrayList<Posts> listSeleccionado= new ArrayList<Posts>();
                 // Gather ToDoItem data
@@ -97,9 +97,10 @@ public class AlimentActivity extends AppCompatActivity implements AlimentAdapter
 
 
 
-                // - Package ToDoItem data into an Intent
 
-                Posts.packageIntent(data, listSeleccionado);
+                data.putParcelableArrayListExtra(ShoppingItem.ALIMENTOS,listSeleccionado);
+
+                ShoppingItem.packageIntent(data, listSeleccionado);
 
                 // - return data Intent and finish
                 setResult(RESULT_OK,data);

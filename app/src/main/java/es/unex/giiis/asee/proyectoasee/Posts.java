@@ -3,6 +3,7 @@ package es.unex.giiis.asee.proyectoasee;
 import android.content.Intent;
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.util.Log;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
@@ -10,7 +11,11 @@ import com.google.gson.annotations.SerializedName;
 import java.util.ArrayList;
 import java.util.List;
 
+import retrofit2.http.POST;
+
 public class Posts implements Parcelable {
+
+    private static final String TAG = "Posts-UserInterface";
 
     public final static String SELECTED="selectedItem";
     @SerializedName("strIngredient")
@@ -25,6 +30,7 @@ public class Posts implements Parcelable {
         this.strIngredient=ingredient;
         this.selected=false;
     }
+
 
     protected Posts(Parcel in) {
         strIngredient = in.readString();
@@ -63,14 +69,6 @@ public class Posts implements Parcelable {
 
 
 
-    public static void packageIntent(Intent intent, ArrayList<Posts> listSelected) {
-
-        intent.putParcelableArrayListExtra(Posts.SELECTED, listSelected);
-
-
-
-    }
-
     @Override
     public int describeContents() {
         return 0;
@@ -80,5 +78,14 @@ public class Posts implements Parcelable {
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeString(strIngredient);
         dest.writeByte((byte) (selected ? 1 : 0));
+    }
+
+    private static void log(String msg) {
+        try {
+            Thread.sleep(500);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        Log.i(TAG, msg);
     }
 }

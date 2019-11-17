@@ -62,6 +62,11 @@ public class AlimentAdapter extends RecyclerView.Adapter<AlimentAdapter.MyViewHo
         return vh;
     }
 
+    public ArrayList<Posts> getItems(){
+        ArrayList<Posts> postsItems=new ArrayList<>();
+        postsItems=mDataset;
+        return postsItems;
+    }
     // Replace the contents of a view (invoked by the layout manager)
     public void onBindViewHolder(final MyViewHolder holder, final int position) {
         holder.mItem = mDataset.get(position);

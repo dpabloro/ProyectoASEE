@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.preference.PreferenceManager;
+import android.util.Log;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -13,6 +14,8 @@ import java.util.Date;
 
 public class ShoppingItem implements Parcelable {
     public static final String ITEM_SEP= System.getProperty("line.separator");
+    private static final String TAG = "ShoppingItem-UserInterface";
+
 
     protected ShoppingItem(Parcel in) {
         fTitle = in.readString();
@@ -31,6 +34,7 @@ public class ShoppingItem implements Parcelable {
             return new ShoppingItem[size];
         }
     };
+
 
     @Override
     public int describeContents() {
@@ -79,8 +83,6 @@ public class ShoppingItem implements Parcelable {
         fStatus=Status.valueOf(intent.getStringExtra(ShoppingItem.STATUS));
         fDate= intent.getStringExtra(ShoppingItem.DATE);
         fAlimentos= (ArrayList<Posts>) intent.getSerializableExtra (ShoppingItem.ALIMENTOS);
-
-
     }
 
     public String getTitle(){
@@ -128,6 +130,17 @@ public class ShoppingItem implements Parcelable {
         intent.putExtra(ShoppingItem.DATE, date);
         intent.putParcelableArrayListExtra(ShoppingItem.ALIMENTOS,listaAlimentos);
 
+    }
+
+
+    public static void packageIntent(Intent intent, ArrayList<Posts> listaAlimentos) {
+
+        intent.putParcelableArrayListExtra(ShoppingItem.ALIMENTOS,listaAlimentos);
+        ArrayList<Posts> listPost = (ArrayList<Posts>) intent.getSerializableExtra("alimentos");
+
+        for (int i=0;i<listPost.size();i++){
+            log("LA LISTA DE ALIMENTOSSSSSSS ES: "+listPost.get(i).getStrIngredient());
+        }
 
     }
 
@@ -139,6 +152,15 @@ public class ShoppingItem implements Parcelable {
     public String toLog() {
         return "Title:" + fTitle + ITEM_SEP + "Status:" + fStatus + ITEM_SEP + "Date:"
                 + fDate;
+    }
+
+    private static void log(String msg) {
+        try {
+            Thread.sleep(500);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        Log.i(TAG, msg);
     }
 
 

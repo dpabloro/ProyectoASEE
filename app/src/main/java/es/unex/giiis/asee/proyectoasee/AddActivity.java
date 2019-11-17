@@ -22,6 +22,7 @@ import android.app.DialogFragment;
 import android.app.DatePickerDialog;
 import es.unex.giiis.asee.proyectoasee.ShoppingItem.Status;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -30,7 +31,7 @@ public class AddActivity extends AppCompatActivity implements AlimentAdapter.OnL
 
 
 
-    private static final String TAG = "Lab-UserInterface";
+    private static final String TAG = "AddActivity-Interface";
 
     private static String dateString;
     private static TextView dateView;
@@ -42,9 +43,10 @@ public class AddActivity extends AppCompatActivity implements AlimentAdapter.OnL
     private RadioGroup mStatusRadioGroup;
     private EditText mTitleText;
     private RadioButton mDefaultStatusButton;
-    private ArrayList<Posts> listPost;
+    private ArrayList<Posts> listPost=new ArrayList<Posts>();
 
-    private static final int ADD_ALIMENT_REQUEST = 0;
+    private static final int ADD_ALIMENT_REQUEST = 1;
+
 
 
     @Override
@@ -66,6 +68,22 @@ public class AddActivity extends AppCompatActivity implements AlimentAdapter.OnL
         // Set the default date
         setDefaultDate();
 
+        //Obtenemos la referencia del RecyclerView
+        rRecyclerView= (RecyclerView) findViewById(R.id.my_recycler_viewSelectedAdd);
+
+
+        //Usa esta configuracion para mejorar el rendimiento si sabes
+        //que el contenido no cambia el tamaño del layout del RecyclerView
+        rRecyclerView.setHasFixedSize(true);
+
+        //Usamos un linear layout manager
+        rLayoutManager = new LinearLayoutManager(this);
+        //Ponemos el linear layout manager al Recycler View
+        rRecyclerView.setLayoutManager(rLayoutManager);
+        mAdapter=new AlimentAdapter(listPost, this);
+        // Attach the adapter to the RecyclerView
+        rRecyclerView.setAdapter(mAdapter);
+
 
         // OnClickListener for the Date button, calls showDatePickerDialog() to show
         // the Date dialog
@@ -77,6 +95,16 @@ public class AddActivity extends AppCompatActivity implements AlimentAdapter.OnL
             public void onClick(View v) {
                 showDatePickerDialog();
             }
+        });
+
+        final Button AlimentsButton = (Button) findViewById(R.id.selectAliment);
+        AlimentsButton.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view){
+                Intent intent= new Intent(AddActivity.this, AlimentActivity.class);
+                startActivityForResult(intent, ADD_ALIMENT_REQUEST);
+            }
+
         });
 
 
@@ -144,42 +172,6 @@ public class AddActivity extends AppCompatActivity implements AlimentAdapter.OnL
             }
         });
 
-        //Obtenemos la referencia del RecyclerView
-        rRecyclerView= (RecyclerView) findViewById(R.id.my_recycler_viewSelectedAdd);
-
-
-        //Usa esta configuracion para mejorar el rendimiento si sabes
-        //que el contenido no cambia el tamaño del layout del RecyclerView
-        rRecyclerView.setHasFixedSize(true);
-
-        //Usamos un linear layout manager
-        rLayoutManager = new LinearLayoutManager(this);
-        //Ponemos el linear layout manager al Recycler View
-        rRecyclerView.setLayoutManager(rLayoutManager);
-
-        if(getIntent().getExtras()!=null){
-            Intent intent= getIntent();
-            listPost = (ArrayList<Posts>) intent.getSerializableExtra("selectedItem");
-            //ArrayList<Posts> listPost=new ArrayList<Posts>();
-            // Posts postsPrueba=new Posts("Pollo");
-
-            // listPost.add(postsPrueba);
-            // Creamos un adapatador para el RecyclerView
-            mAdapter=new AlimentAdapter(listPost, this);
-            // Attach the adapter to the RecyclerView
-            rRecyclerView.setAdapter(mAdapter);
-        }
-
-
-        final Button AlimentsButton = (Button) findViewById(R.id.selectAliment);
-        AlimentsButton.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View view){
-                Intent intent= new Intent(AddActivity.this, AlimentActivity.class);
-                startActivityForResult(intent, ADD_ALIMENT_REQUEST);
-            }
-
-        });
 
     }
 
@@ -246,6 +238,58 @@ public class AddActivity extends AppCompatActivity implements AlimentAdapter.OnL
 
 
     }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        // Check which request we're responding to
+        super.onActivityResult(requestCode, resultCode, data);
+
+            if (resultCode == RESULT_OK) {
+                // The user picked a contact.
+                // The Intent's data Uri identifies which contact was selected.
+                listPost = (ArrayList<Posts>)data.getSerializableExtra("alimentos");
+
+                mAdapter=new AlimentAdapter(listPost, this);
+                // Attach the adapter to the RecyclerView
+                rRecyclerView.setAdapter(mAdapter);
+            }
+
+    }
+
+    /*
+    public void onResume() {
+        super.onResume();
+
+
+        log("ENTRAAAAAAAAAAA1");
+        Intent intent= getIntent();
+
+        Posts postsPrueba=new Posts("Pollo");
+
+        listPost.add(postsPrueba);
+        // Creamos un adapatador para el RecyclerView
+        mAdapter=new AlimentAdapter(listPost, this);
+        // Attach the adapter to the RecyclerView
+        rRecyclerView.setAdapter(mAdapter);
+
+        log("EL TAMAÑOOO ESSSSS: "+intent.getExtras());
+        if(intent.getExtras()!=null){
+            log("ENTRAAAAAAAAAAA2");
+            listPost = (ArrayList<Posts>) intent.getSerializableExtra("alimentos");
+            //ArrayList<Posts> listPost=new ArrayList<Posts>();
+            // Posts postsPrueba=new Posts("Pollo");
+
+            // listPost.add(postsPrueba);
+            // Creamos un adapatador para el RecyclerView
+            mAdapter=new AlimentAdapter(listPost, this);
+            // Attach the adapter to the RecyclerView
+            rRecyclerView.setAdapter(mAdapter);
+        }
+
+
+    }
+
+     */
 
     private Status getStatus() {
 

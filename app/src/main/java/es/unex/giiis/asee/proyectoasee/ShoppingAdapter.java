@@ -75,8 +75,8 @@ public class ShoppingAdapter extends RecyclerView.Adapter<ShoppingAdapter.ViewHo
         ArrayList<ShoppingItem> shoppingItems=new ArrayList<>();
         shoppingItems=mItems;
         return shoppingItems;
-
     }
+
     public Object getItem(int pos) {
 
         return mItems.get(pos);
