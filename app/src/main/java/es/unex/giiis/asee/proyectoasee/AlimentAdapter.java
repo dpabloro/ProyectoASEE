@@ -108,7 +108,7 @@ public class AlimentAdapter extends RecyclerView.Adapter<AlimentAdapter.MyViewHo
             p = mDataset.get(i);
             if(p.isSelected()){
                 listaSeleccionados.add(p);
-                log("Lista seleccionada " + listaSeleccionados.get(i).getStrIngredient() );
+                //log("Lista seleccionada " + listaSeleccionados.get(i).getStrIngredient() );
 
             }
 

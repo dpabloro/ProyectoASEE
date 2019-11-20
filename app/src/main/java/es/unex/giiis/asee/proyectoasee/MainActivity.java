@@ -8,7 +8,9 @@ import androidx.recyclerview.widget.RecyclerView;
 
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -51,6 +53,7 @@ public class MainActivity extends AppCompatActivity {
     // IDs for menu items
     private static final int MENU_DELETE = Menu.FIRST;
     private static final int MENU_SELECTED = Menu.FIRST+1;
+    private static final int MENU_PREFERENCES = Menu.FIRST+2;
 
     //Lista de lista de la compra
     private ArrayList<ShoppingItem> listaItems = new ArrayList<ShoppingItem>();
@@ -105,6 +108,8 @@ public class MainActivity extends AppCompatActivity {
         rRecyclerView.setLayoutManager(rLayoutManager);
 
 
+        //iniciar las preferencias
+        PreferenceManager.setDefaultValues(this, R.xml.preferences, false);
 
         // Creamos un adapatador para el RecyclerView
          mAdapter = new ShoppingAdapter(new ShoppingAdapter.OnItemClickListener(){
@@ -134,8 +139,14 @@ public class MainActivity extends AppCompatActivity {
         // Attach the adapter to the RecyclerView
         rRecyclerView.setAdapter(mAdapter);
 
+        SharedPreferences sharedPreferences= PreferenceManager.getDefaultSharedPreferences(this);
+
+
+
         listaItems=mAdapter.getItems();
         searchInput=findViewById(R.id.search_input);
+
+
 
         searchInput.addTextChangedListener(new TextWatcher() {
             @Override
@@ -210,6 +221,8 @@ public class MainActivity extends AppCompatActivity {
 
         menu.add(Menu.NONE, MENU_DELETE, Menu.NONE, "Delete all");
         menu.add(Menu.NONE, MENU_SELECTED, Menu.NONE, "Delete selected");
+        menu.add(Menu.NONE, MENU_PREFERENCES, Menu.NONE, "Preferences");
+
         return true;
     }
 
@@ -221,6 +234,10 @@ public class MainActivity extends AppCompatActivity {
             case MENU_SELECTED:
                 deleteSelected();
                 return true;
+            case MENU_PREFERENCES:
+                openSettings();
+                return true;
+
             default:
                 return super.onOptionsItemSelected(item);
         }
@@ -231,6 +248,11 @@ public class MainActivity extends AppCompatActivity {
 
    }
 
+
+   public void openSettings(){
+        Intent newActivity = new Intent(this, Settings.class);
+        startActivity(newActivity);
+   }
 
 
    public void loadItems() throws IOException {
