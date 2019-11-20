@@ -116,7 +116,7 @@ public class AddActivity extends AppCompatActivity implements AlimentAdapter.OnL
             public void onClick(View v) {
                 log("Entered cancelButton.OnClickListener.onClick()");
 
-                //TODO - Implement onClick().
+                // - Implement onClick().
                 Intent data = new Intent();
                 setResult(RESULT_CANCELED, data);
                 finish();
@@ -140,6 +140,13 @@ public class AddActivity extends AppCompatActivity implements AlimentAdapter.OnL
                 mStatusRadioGroup.check(mDefaultStatusButton.getId());
                 setDefaultDate();
 
+                listPost.clear();
+                mAdapter=new AlimentAdapter(listPost, AddActivity.this);
+                // Attach the adapter to the RecyclerView
+                rRecyclerView.setAdapter(mAdapter);
+
+
+
             }
         });
 
@@ -149,8 +156,8 @@ public class AddActivity extends AppCompatActivity implements AlimentAdapter.OnL
             public void onClick(View v) {
                 log("Entered submitButton.OnClickListener.onClick()");
 
-                // Gather ToDoItem data
-                Log.i("Estela","LLEGA AQUÍ eee");
+
+
                 // -  Title
                 String title= mTitleText.getText().toString();
 

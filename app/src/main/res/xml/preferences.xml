@@ -8,6 +8,12 @@
         android:singleLine="true"
         android:title="@string/username" />
 
+    <EditTextPreference
+        android:defaultValue="529"
+        android:key="pref_aliment"
+        android:selectAllOnFocus="true"
+        android:singleLine="true"
+        android:title="@string/numAlimentos" />
 
 
 

@@ -76,7 +76,7 @@ public class EditActivity extends AppCompatActivity  implements AlimentAdapter.O
 
 
         Intent intent= getIntent();
-       listPost = (ArrayList<Posts>) intent.getSerializableExtra("selectedItem");
+       listPost = (ArrayList<Posts>) intent.getSerializableExtra("alimentos");
         //ArrayList<Posts> listPost=new ArrayList<Posts>();
       // Posts postsPrueba=new Posts("Pollo");
 
@@ -162,6 +162,11 @@ public class EditActivity extends AppCompatActivity  implements AlimentAdapter.O
                 mStatusRadioGroup.check(mDefaultStatusButton.getId());
                 setDefaultDate();
 
+                listPost.clear();
+                mAdapter=new AlimentAdapter(listPost, EditActivity.this);
+                // Attach the adapter to the RecyclerView
+                rRecyclerView.setAdapter(mAdapter);
+
             }
         });
 
@@ -193,15 +198,7 @@ public class EditActivity extends AppCompatActivity  implements AlimentAdapter.O
             }
         });
 
-        final Button AlimentsButton = (Button) findViewById(R.id.selectAliment);
-        AlimentsButton.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View view){
-                Intent intent= new Intent(EditActivity.this, AlimentActivity.class);
-                startActivityForResult(intent, ADD_ALIMENT_REQUEST);
-            }
 
-        });
 
     }
 

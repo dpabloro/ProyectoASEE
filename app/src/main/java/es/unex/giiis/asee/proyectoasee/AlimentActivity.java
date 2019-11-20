@@ -2,6 +2,7 @@ package es.unex.giiis.asee.proyectoasee;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 
@@ -11,6 +12,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
+import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -45,6 +47,7 @@ public class AlimentActivity extends AppCompatActivity implements AlimentAdapter
 
     private RequestQueue queue;
 
+    private int numAlimentos;
 
     private ArrayList<Posts> listaItems = new ArrayList<Posts>();
 
@@ -113,6 +116,22 @@ public class AlimentActivity extends AppCompatActivity implements AlimentAdapter
 
     }
 
+
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        String num;
+
+        SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
+        num =  sharedPref.getString(SettingFragments.KEY_PREF_ALIMENT, "");
+        numAlimentos = Integer.parseInt(num);
+
+
+
+    }
+
     private void getPosts(){
         String url = "https://www.themealdb.com/api/json/v1/1/list.php?i=list";
 
@@ -120,16 +139,20 @@ public class AlimentActivity extends AppCompatActivity implements AlimentAdapter
             @Override
             public void onResponse(JSONObject response) {
 
+
+
                 try {
                     JSONArray mJsonArray = response.getJSONArray("meals");
-
-                    for (int i=0; i<mJsonArray.length();i++){
-                        JSONObject mJsonObject = mJsonArray.getJSONObject(i);
-                        String name = mJsonObject.getString("strIngredient");
-                        Posts post=new Posts(name);
-                        listaItems.add(post);
-
+                    if( numAlimentos > mJsonArray.length() ) {
+                        numAlimentos= mJsonArray.length();
                     }
+                        for (int i = 0; i < numAlimentos; i++) {
+                            JSONObject mJsonObject = mJsonArray.getJSONObject(i);
+                            String name = mJsonObject.getString("strIngredient");
+                            Posts post = new Posts(name);
+                            listaItems.add(post);
+
+                        }
 
 
 
@@ -181,7 +204,6 @@ public class AlimentActivity extends AppCompatActivity implements AlimentAdapter
         Intent webIntent = new Intent(Intent.ACTION_VIEW, webpage);
         startActivity(webIntent);
     }
-
 
 
 

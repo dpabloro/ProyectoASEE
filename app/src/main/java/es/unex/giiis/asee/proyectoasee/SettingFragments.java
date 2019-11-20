@@ -18,6 +18,7 @@ import java.util.ArrayList;
 public class SettingFragments extends PreferenceFragment {
 
     public static final String KEY_PREF_USERNAME = "pref_username";
+    public static final String KEY_PREF_ALIMENT = "pref_aliment";
 
 
     @Override
