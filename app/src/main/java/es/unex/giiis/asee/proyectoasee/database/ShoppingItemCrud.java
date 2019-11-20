@@ -94,7 +94,10 @@ public class ShoppingItemCrud {
             db.delete(DBContract.MainItem.TABLE_NAME, selection, selectionArgs);
     }
 
-    public int updateStatus(long ID, String title, ShoppingItem.Status status, String date) {
+    //public int updateStatus(long ID, String title, ShoppingItem.Status status, String date) {
+
+        //Editar _Alimentos
+        public int updateStatus(long ID, String title, ShoppingItem.Status status, String date, String alimentos) {
 
         SQLiteDatabase db = mDbHelper.getReadableDatabase();
         Log.d("ToDoItemCRUD","Item ID: "+ID);
@@ -104,6 +107,7 @@ public class ShoppingItemCrud {
         values.put(DBContract.MainItem.COLUMN_NAME_TITLE, title);
         values.put(DBContract.MainItem.COLUMN_NAME_STATUS, status.name());
         values.put(DBContract.MainItem.COLUMN_NAME_DATE, date);
+        values.put(DBContract.MainItem.COLUMN_NAME_ALIMENTS, alimentos);
 
 
 

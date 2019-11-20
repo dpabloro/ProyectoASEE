@@ -14,6 +14,7 @@ import java.util.Date;
 
 public class ShoppingItem implements Parcelable {
     public static final String ITEM_SEP= System.getProperty("line.separator");
+
     private static final String TAG = "ShoppingItem-UserInterface";
 
     private static final String COMMA_SEP = ",";
@@ -23,7 +24,7 @@ public class ShoppingItem implements Parcelable {
     };
 
 
-
+    public static final String ID = "id";
     public final static String TITLE="title";
     public final static String STATUS="status";
     public final static String DATE="date";
@@ -73,11 +74,15 @@ public class ShoppingItem implements Parcelable {
                 fAlimentos.add(post);
                 ingrediente="";
             }
+
+            if(i==alimentos.length()-1) {
+                post = new Posts(ingrediente);
+                post.setSelected(true);
+                fAlimentos.add(post);
+            }
         }
 
-        post = new Posts(ingrediente);
-        post.setSelected(true);
-        fAlimentos.add(post);
+
 
 
 
@@ -158,7 +163,7 @@ public class ShoppingItem implements Parcelable {
         this.id = id;
     }
 
-    public long setID(){
+    public long getID(){
 
         return id;
     }

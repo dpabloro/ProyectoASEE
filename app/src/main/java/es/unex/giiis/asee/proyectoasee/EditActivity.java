@@ -39,7 +39,7 @@ public class EditActivity extends AppCompatActivity  implements AlimentAdapter.O
     private EditText mTitleText;
     private RadioButton mDefaultStatusButton;
 
-    private static final int ADD_ALIMENT_REQUEST = 0;
+    private static final int RESULT_EDIT_OK = 2;
     private RecyclerView rRecyclerView; //(lista de las listas/elementos seleccionados en la aplicacion)
     private RecyclerView.LayoutManager rLayoutManager;
     private AlimentAdapter mAdapter;
@@ -50,6 +50,7 @@ public class EditActivity extends AppCompatActivity  implements AlimentAdapter.O
     String datosobtenidos;
     String fechaobtenida;
     String estadoobtenido;
+    Long idobtenido;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -87,6 +88,7 @@ public class EditActivity extends AppCompatActivity  implements AlimentAdapter.O
         rRecyclerView.setAdapter(mAdapter);
 
         datos= getIntent().getExtras();
+        idobtenido= datos.getLong("id");
         datosobtenidos= datos.getString("title");
         mTitleText = (EditText) findViewById(R.id.titleIntroducirId);
         mTitleText.setText(datosobtenidos);
@@ -137,7 +139,7 @@ public class EditActivity extends AppCompatActivity  implements AlimentAdapter.O
             public void onClick(View v) {
                 log("Entered cancelButton.OnClickListener.onClick()");
 
-                //TODO - Implement onClick().
+                //Implement onClick().
                 Intent data = new Intent();
                 setResult(RESULT_CANCELED, data);
                 finish();
@@ -190,9 +192,11 @@ public class EditActivity extends AppCompatActivity  implements AlimentAdapter.O
                 // - Package ToDoItem data into an Intent
 
                 ShoppingItem.packageIntent(data,title,status,dateString,listPost);
+                data.putExtra(ShoppingItem.ID, idobtenido);
 
                 // - return data Intent and finish
-                setResult(RESULT_OK,data);
+                setResult(RESULT_EDIT_OK,data);
+                Log.i("EDIT", " SHOPPING"  );
                 finish();
 
             }

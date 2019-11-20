@@ -47,7 +47,8 @@ import es.unex.giiis.asee.proyectoasee.database.ShoppingItemCrud;
 public class MainActivity extends AppCompatActivity {
     // Add a ToDoItem Request Code
     private static final int ADD_TODO_ITEM_REQUEST = 0;
-    private static final int EDIT_SHOPPING_ITEM_REQUEST = 0;
+    private static final int EDIT_SHOPPING_ITEM_REQUEST = 1;
+    private static final int RESULT_EDIT = 2;
 
     private static final String FILE_NAME = "MainActivity.txt";
     private static final String TAG = "MainActivity-UserInterface";
@@ -55,7 +56,7 @@ public class MainActivity extends AppCompatActivity {
     // IDs for menu items
     private static final int MENU_DELETE = Menu.FIRST;
     private static final int MENU_SELECTED = Menu.FIRST+1;
-    private static final int MENU_PREFERENCES = Menu.FIRST+2;
+    private static final int MENU_PREFERENCES = Menu.FIRST+1;
 
     //Lista de lista de la compra
     private ArrayList<ShoppingItem> listaItems = new ArrayList<ShoppingItem>();
@@ -119,6 +120,8 @@ public class MainActivity extends AppCompatActivity {
             public void onItemClick(ShoppingItem item){
                 Intent intent= new Intent(MainActivity.this, EditActivity.class);
 
+                long id= item.getID();
+
                 String title= item.getTitle();
 
                 //-  Get Status
@@ -126,14 +129,18 @@ public class MainActivity extends AppCompatActivity {
 
                 String dateString= item.getDate();
                 ArrayList<Posts> listaAlimentos=item.getfAlimentos();
-                ShoppingItem.packageIntent(intent,title,status,dateString,listaAlimentos);
 
+
+
+                log("DA CLICK EN LISTA");
+                ShoppingItem.packageIntent(intent, title,status,dateString,listaAlimentos);
+                intent.putExtra(ShoppingItem.ID, id);
 
 
 
                 startActivityForResult(intent, EDIT_SHOPPING_ITEM_REQUEST );
 
-                log("DA CLICK EN LISTA");
+                log("DA CLICK EN LISTA 2");
 
             }
         });
@@ -223,6 +230,20 @@ public class MainActivity extends AppCompatActivity {
             long id = crud.insert(sItem);
             sItem.setID(id);
 
+
+        }
+        else{
+            if((resultCode== RESULT_EDIT) && (requestCode == EDIT_SHOPPING_ITEM_REQUEST)){
+                ShoppingItem sItem = new ShoppingItem(data);
+                sItem.setID(data.getLongExtra(ShoppingItem.ID, 0));
+
+
+                ShoppingItemCrud crud = ShoppingItemCrud.getInstance(this);
+               // crud.updateStatus(sItem.getID(), sItem.getTitle(), sItem.getStatus(), sItem.getDate());
+                //Editando los alimentos
+                crud.updateStatus(sItem.getID(), sItem.getTitle(), sItem.getStatus(), sItem.getDate(), sItem.getSAlimentos());
+                mAdapter.notifyDataSetChanged();
+            }
         }
     }
 
@@ -233,7 +254,7 @@ public class MainActivity extends AppCompatActivity {
 
 
         menu.add(Menu.NONE, MENU_DELETE, Menu.NONE, "Delete all");
-        menu.add(Menu.NONE, MENU_SELECTED, Menu.NONE, "Delete selected");
+       // menu.add(Menu.NONE, MENU_SELECTED, Menu.NONE, "Delete selected");
         menu.add(Menu.NONE, MENU_PREFERENCES, Menu.NONE, "Preferences");
 
         return true;
@@ -242,10 +263,7 @@ public class MainActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case MENU_DELETE:
-                mAdapter.clear();
-                return true;
-            case MENU_SELECTED:
-                deleteSelected();
+                deleteAll();
                 return true;
             case MENU_PREFERENCES:
                 openSettings();
@@ -257,8 +275,10 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-   private void deleteSelected(){
-
+   private void deleteAll(){
+        ShoppingItemCrud shoppingItemCrud = ShoppingItemCrud.getInstance(this);
+        shoppingItemCrud.deleteAll();
+        mAdapter.clear();
    }
 
 
