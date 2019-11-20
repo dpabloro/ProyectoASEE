@@ -83,6 +83,13 @@ public class ShoppingAdapter extends RecyclerView.Adapter<ShoppingAdapter.ViewHo
 
     }
 
+
+    public void load(ArrayList<ShoppingItem> items){
+        mItems.clear();
+        mItems=items;
+        notifyDataSetChanged();
+    }
+
     static class ViewHolder extends RecyclerView.ViewHolder {
 
         private TextView title;

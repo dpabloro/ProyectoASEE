@@ -42,6 +42,8 @@ import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
 
+import es.unex.giiis.asee.proyectoasee.database.ShoppingItemCrud;
+
 public class MainActivity extends AppCompatActivity {
     // Add a ToDoItem Request Code
     private static final int ADD_TODO_ITEM_REQUEST = 0;
@@ -203,6 +205,13 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @Override
+    protected void onDestroy() {
+        ShoppingItemCrud crud=ShoppingItemCrud.getInstance(this);
+        crud.close();
+        super.onDestroy();
+    }
+
+    @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         log("Entered onActivityResult()");
@@ -210,6 +219,10 @@ public class MainActivity extends AppCompatActivity {
         if ((resultCode == RESULT_OK) & (requestCode == ADD_TODO_ITEM_REQUEST)) {
             ShoppingItem sItem = new ShoppingItem(data);
             mAdapter.add(sItem);
+            ShoppingItemCrud crud = ShoppingItemCrud.getInstance(this);
+            long id = crud.insert(sItem);
+            sItem.setID(id);
+
         }
     }
 
@@ -256,7 +269,7 @@ public class MainActivity extends AppCompatActivity {
 
 
    public void loadItems() throws IOException {
-       BufferedReader reader=null;
+ /*      BufferedReader reader=null;
        FileInputStream fileInputStream= openFileInput(FILE_NAME);
        reader = new BufferedReader(new InputStreamReader(fileInputStream));
 
@@ -273,8 +286,15 @@ public class MainActivity extends AppCompatActivity {
         if (reader != null){
             reader.close();
         }
+        */
+
+        ShoppingItemCrud crud = ShoppingItemCrud.getInstance(this);
+        ArrayList<ShoppingItem> shoppingItems = crud.getAll();
+        mAdapter.load(shoppingItems);
+
 
    }
+
 
 
 

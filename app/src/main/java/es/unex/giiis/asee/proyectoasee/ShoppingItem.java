@@ -16,6 +16,28 @@ public class ShoppingItem implements Parcelable {
     public static final String ITEM_SEP= System.getProperty("line.separator");
     private static final String TAG = "ShoppingItem-UserInterface";
 
+    private static final String COMMA_SEP = ",";
+
+    public enum Status{
+        PENDING, DONE
+    };
+
+
+
+    public final static String TITLE="title";
+    public final static String STATUS="status";
+    public final static String DATE="date";
+    public final static String ALIMENTOS="alimentos";
+
+
+    public final static String FILENAME="filename";
+
+
+    private long id;
+    private String fTitle = new String();
+    private Status fStatus = Status.PENDING;
+    private String fDate= new String();
+    private ArrayList<Posts> fAlimentos=new ArrayList<Posts>();
 
     protected ShoppingItem(Parcel in) {
         fTitle = in.readString();
@@ -35,6 +57,33 @@ public class ShoppingItem implements Parcelable {
         }
     };
 
+    public ShoppingItem(long _id, String title, String status, String date, String alimentos) {
+        id=_id;
+        fTitle=title;
+        fStatus=Status.valueOf(status);
+        fDate=date;
+        String ingrediente="";
+        Posts post;
+        for (int i = 0; i < alimentos.length(); i++) {
+            if(alimentos.charAt(i)!=',')
+                ingrediente+=alimentos.charAt(i);
+            else {
+                post = new Posts(ingrediente);
+                post.setSelected(true);
+                fAlimentos.add(post);
+                ingrediente="";
+            }
+        }
+
+        post = new Posts(ingrediente);
+        post.setSelected(true);
+        fAlimentos.add(post);
+
+
+
+
+    }
+
 
     @Override
     public int describeContents() {
@@ -48,25 +97,21 @@ public class ShoppingItem implements Parcelable {
         dest.writeTypedList(fAlimentos);
     }
 
-    public enum Status{
-        PENDING, DONE
-    };
+    public String getSAlimentos() {
+        String alimentos="";
+        for(int i=0;i<fAlimentos.size();i++){
+            if (i==fAlimentos.size()-1){
+                alimentos+=fAlimentos.get(i).getStrIngredient();
+            } else
+                alimentos+=fAlimentos.get(i).getStrIngredient()+COMMA_SEP;
+        }
+
+        Log.i("LISTA ALIMENTOS", alimentos);
+
+        return alimentos;
+    }
 
 
-
-    public final static String TITLE="title";
-    public final static String STATUS="status";
-    public final static String DATE="date";
-    public final static String ALIMENTOS="alimentos";
-
-
-    public final static String FILENAME="filename";
-
-
-    private String fTitle = new String();
-    private Status fStatus = Status.PENDING;
-    private String fDate= new String();
-    private ArrayList<Posts> fAlimentos=new ArrayList<Posts>();
 
     ShoppingItem(String t, Status s, String d){
         this.fTitle=t;
@@ -107,6 +152,15 @@ public class ShoppingItem implements Parcelable {
 
     public void setfAlimentos(ArrayList<Posts> fAlimentos) {
         this.fAlimentos = fAlimentos;
+    }
+
+    public void setID(long id) {
+        this.id = id;
+    }
+
+    public long setID(){
+
+        return id;
     }
 
     public String getDate(){
