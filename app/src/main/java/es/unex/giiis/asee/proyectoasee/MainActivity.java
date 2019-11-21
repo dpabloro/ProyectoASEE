@@ -2,7 +2,6 @@ package es.unex.giiis.asee.proyectoasee;
 
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.view.MenuItemCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -19,7 +18,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.RadioGroup;
-import android.widget.SearchView;
 import android.widget.TextView;
 
 import androidx.appcompat.widget.Toolbar;
@@ -29,18 +27,13 @@ import androidx.appcompat.widget.Toolbar;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 
-import java.io.BufferedReader;
 import java.io.BufferedWriter;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import es.unex.giiis.asee.proyectoasee.database.ShoppingItemCrud;
 
@@ -171,6 +164,8 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void afterTextChanged(Editable s) {
+                ShoppingItemCrud crud = ShoppingItemCrud.getInstance(MainActivity.this);
+                listaItems= crud.getAll();
                 filtrar(listaItems,s.toString());
             }
         });

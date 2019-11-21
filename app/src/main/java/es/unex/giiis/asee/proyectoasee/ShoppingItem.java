@@ -3,14 +3,10 @@ package es.unex.giiis.asee.proyectoasee;
 import android.content.Intent;
 import android.os.Parcel;
 import android.os.Parcelable;
-import android.preference.PreferenceManager;
 import android.util.Log;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Locale;
-import java.util.Date;
+
 
 public class ShoppingItem implements Parcelable {
     public static final String ITEM_SEP= System.getProperty("line.separator");

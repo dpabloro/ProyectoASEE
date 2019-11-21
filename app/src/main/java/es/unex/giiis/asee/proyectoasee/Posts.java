@@ -1,6 +1,5 @@
 package es.unex.giiis.asee.proyectoasee;
 
-import android.content.Intent;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.util.Log;
@@ -8,10 +7,6 @@ import android.util.Log;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import retrofit2.http.POST;
 
 public class Posts implements Parcelable {
 

@@ -9,7 +9,7 @@
     <string name="pendiente">Pending</string>
     <string name="realizado">Done</string>
 
-    <string name="timeAndDateText">Time and Date</string>
+    <string name="timeAndDateText">Date</string>
     <string name="noDate"> date</string>
     <string name="noTime"> time</string>
     <string name="chooseDate">Choose date</string>

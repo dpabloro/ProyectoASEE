@@ -1,6 +1,5 @@
 package es.unex.giiis.asee.proyectoasee;
 
-import android.annotation.SuppressLint;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.content.Intent;
@@ -19,13 +18,10 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.DialogFragment;
-import android.app.DatePickerDialog;
 import es.unex.giiis.asee.proyectoasee.ShoppingItem.Status;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 
 public class AddActivity extends AppCompatActivity implements AlimentAdapter.OnListInteractionListener{
 

@@ -11,7 +11,6 @@ import android.widget.TextView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class AlimentAdapter extends RecyclerView.Adapter<AlimentAdapter.MyViewHolder>  {
     private  ArrayList<Posts> mDataset;
