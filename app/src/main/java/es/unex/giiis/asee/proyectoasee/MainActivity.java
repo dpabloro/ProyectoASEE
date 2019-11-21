@@ -75,6 +75,7 @@ public class MainActivity extends AppCompatActivity {
     private EditText mTitleText;
 
     EditText searchInput;
+    private boolean cargar = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -190,8 +191,9 @@ public class MainActivity extends AppCompatActivity {
 
         // Load saved ToDoItems, if necessary
 
-        if (mAdapter.getItemCount() == 0) {
+        if (mAdapter.getItemCount() == 0 || cargar) {
             try {
+                cargar=false;
                 loadItems();
             } catch (IOException e) {
                 e.printStackTrace();
@@ -242,7 +244,8 @@ public class MainActivity extends AppCompatActivity {
                // crud.updateStatus(sItem.getID(), sItem.getTitle(), sItem.getStatus(), sItem.getDate());
                 //Editando los alimentos
                 crud.updateStatus(sItem.getID(), sItem.getTitle(), sItem.getStatus(), sItem.getDate(), sItem.getSAlimentos());
-                mAdapter.notifyDataSetChanged();
+                //mAdapter.notifyDataSetChanged();
+                cargar=true;
             }
         }
     }

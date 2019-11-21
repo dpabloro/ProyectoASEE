@@ -7,7 +7,7 @@
     android:fitsSystemWindows="true"
 
 
-    tools:context="es.unex.giiis.asee.proyectoasee.DetailsLista">
+    tools:context="es.unex.giiis.asee.proyectoasee.AddActivity">
 
 
     <com.google.android.material.appbar.AppBarLayout
