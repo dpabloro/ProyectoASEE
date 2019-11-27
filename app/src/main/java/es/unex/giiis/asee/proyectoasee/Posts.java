@@ -21,7 +21,7 @@ public class Posts implements Parcelable {
     @Expose
     private boolean selected;
 
-    Posts(String ingredient){
+    public Posts(String ingredient){
         this.strIngredient=ingredient;
         this.selected=false;
     }

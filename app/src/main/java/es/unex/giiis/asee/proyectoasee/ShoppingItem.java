@@ -5,10 +5,20 @@ import android.os.Parcel;
 import android.os.Parcelable;
 import android.util.Log;
 
+import androidx.room.Entity;
+import androidx.room.Ignore;
+import androidx.room.PrimaryKey;
+import androidx.room.TypeConverter;
+import androidx.room.TypeConverters;
+
 import java.util.ArrayList;
 
+import es.unex.giiis.asee.proyectoasee.roomdb.AlimentConverter;
+import es.unex.giiis.asee.proyectoasee.roomdb.StatusConverter;
 
+@Entity(tableName = "shopping")
 public class ShoppingItem implements Parcelable {
+    @Ignore
     public static final String ITEM_SEP= System.getProperty("line.separator");
 
     private static final String TAG = "ShoppingItem-UserInterface";
@@ -19,29 +29,34 @@ public class ShoppingItem implements Parcelable {
         PENDING, DONE
     };
 
-
+    @Ignore
     public static final String ID = "id";
+    @Ignore
     public final static String TITLE="title";
+    @Ignore
     public final static String STATUS="status";
+    @Ignore
     public final static String DATE="date";
+    @Ignore
     public final static String ALIMENTOS="alimentos";
 
-
-    public final static String FILENAME="filename";
-
-
+    @PrimaryKey(autoGenerate = true)
     private long id;
     private String fTitle = new String();
+    @TypeConverters(StatusConverter.class)
     private Status fStatus = Status.PENDING;
     private String fDate= new String();
+    @TypeConverters(AlimentConverter.class)
     private ArrayList<Posts> fAlimentos=new ArrayList<Posts>();
 
+    @Ignore
     protected ShoppingItem(Parcel in) {
         fTitle = in.readString();
         fDate = in.readString();
         fAlimentos = in.createTypedArrayList(Posts.CREATOR);
     }
 
+    @Ignore
     public static final Creator<ShoppingItem> CREATOR = new Creator<ShoppingItem>() {
         @Override
         public ShoppingItem createFromParcel(Parcel in) {

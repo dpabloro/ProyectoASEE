@@ -190,7 +190,7 @@ public class EditActivity extends AppCompatActivity  implements AlimentAdapter.O
 
 
                 // - Package ToDoItem data into an Intent
-
+                dateString= (String) dateView.getText();
                 ShoppingItem.packageIntent(data,title,status,dateString,listPost);
                 data.putExtra(ShoppingItem.ID, idobtenido);
 
