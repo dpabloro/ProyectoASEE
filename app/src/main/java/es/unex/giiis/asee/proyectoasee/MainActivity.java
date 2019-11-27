@@ -1,7 +1,10 @@
 package es.unex.giiis.asee.proyectoasee;
 
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -34,7 +37,9 @@ import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 
 import java.util.ArrayList;
+import java.util.List;
 
+import es.unex.giiis.asee.proyectoasee.database.DBContract;
 import es.unex.giiis.asee.proyectoasee.database.ShoppingItemCrud;
 
 public class MainActivity extends AppCompatActivity {
@@ -69,6 +74,9 @@ public class MainActivity extends AppCompatActivity {
 
     EditText searchInput;
     private boolean cargar = false;
+
+
+    private ShoppingViewModel mShoppingViewModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -108,13 +116,31 @@ public class MainActivity extends AppCompatActivity {
         //iniciar las preferencias
         PreferenceManager.setDefaultValues(this, R.xml.preferences, false);
 
+
+        mShoppingViewModel = ViewModelProviders.of(this).get(ShoppingViewModel.class);
+        //se añade el observador
+        mShoppingViewModel.getAllItems().observe(this, new Observer<List<ShoppingItem>>() {
+            @Override
+            public void onChanged(@Nullable final List<ShoppingItem> items) {
+                // Update the cached copy of the items in the adapter.
+                Log.i("Prueba ", "Cambios notificados init");
+                listaItems= (ArrayList<ShoppingItem>) items;
+                mAdapter.setShoppingItems(listaItems);
+                Log.i("Prueba ", "Cambios notificados end");
+            }
+        });
+
+
+
+
+
         // Creamos un adapatador para el RecyclerView
          mAdapter = new ShoppingAdapter(new ShoppingAdapter.OnItemClickListener(){
             @Override
             public void onItemClick(ShoppingItem item){
                 Intent intent= new Intent(MainActivity.this, EditActivity.class);
 
-                long id= item.getID();
+                long id= item.getId();
 
                 String title= item.getTitle();
 
@@ -122,7 +148,7 @@ public class MainActivity extends AppCompatActivity {
                 ShoppingItem.Status status = item.getStatus();
 
                 String dateString= item.getDate();
-                ArrayList<Posts> listaAlimentos=item.getfAlimentos();
+                ArrayList<Posts> listaAlimentos=item.getAlimentos();
 
 
 
@@ -187,12 +213,10 @@ public class MainActivity extends AppCompatActivity {
         // Load saved ToDoItems, if necessary
 
         if (mAdapter.getItemCount() == 0 || cargar) {
-            try {
+
                 cargar=false;
-                loadItems();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+               // loadItems();
+
         }
     }
 
@@ -201,17 +225,15 @@ public class MainActivity extends AppCompatActivity {
     protected void onPause(){
         super.onPause();
 
-        try {
-            saveItems();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+
+            //saveItems();
+
     }
 
     @Override
     protected void onDestroy() {
-        ShoppingItemCrud crud=ShoppingItemCrud.getInstance(this);
-        crud.close();
+        //ShoppingItemCrud crud=ShoppingItemCrud.getInstance(this);
+        //crud.close();
         super.onDestroy();
     }
 
@@ -222,25 +244,28 @@ public class MainActivity extends AppCompatActivity {
 
         if ((resultCode == RESULT_OK) & (requestCode == ADD_TODO_ITEM_REQUEST)) {
             ShoppingItem sItem = new ShoppingItem(data);
-            mAdapter.add(sItem);
-            ShoppingItemCrud crud = ShoppingItemCrud.getInstance(this);
-            long id = crud.insert(sItem);
-            sItem.setID(id);
+            //mAdapter.add(sItem);
+            //ShoppingItemCrud crud = ShoppingItemCrud.getInstance(this);
+            //long id = crud.insert(sItem);
+            //sItem.setID(id);
+            mShoppingViewModel.insert(sItem);
 
 
         }
         else{
             if((resultCode== RESULT_EDIT) && (requestCode == EDIT_SHOPPING_ITEM_REQUEST)){
                 ShoppingItem sItem = new ShoppingItem(data);
-                sItem.setID(data.getLongExtra(ShoppingItem.ID, 0));
+                sItem.setId(data.getLongExtra(ShoppingItem.ID, 0));
 
 
-                ShoppingItemCrud crud = ShoppingItemCrud.getInstance(this);
+               // ShoppingItemCrud crud = ShoppingItemCrud.getInstance(this);
                // crud.updateStatus(sItem.getID(), sItem.getTitle(), sItem.getStatus(), sItem.getDate());
                 //Editando los alimentos
-                crud.updateStatus(sItem.getID(), sItem.getTitle(), sItem.getStatus(), sItem.getDate(), sItem.getSAlimentos());
+               // crud.updateStatus(sItem.getID(), sItem.getTitle(), sItem.getStatus(), sItem.getDate(), sItem.getSAlimentos());
                 //mAdapter.notifyDataSetChanged();
+                mShoppingViewModel.update(sItem);
                 cargar=true;
+
             }
         }
     }
@@ -274,9 +299,10 @@ public class MainActivity extends AppCompatActivity {
 
 
    private void deleteAll(){
-        ShoppingItemCrud shoppingItemCrud = ShoppingItemCrud.getInstance(this);
-        shoppingItemCrud.deleteAll();
-        mAdapter.clear();
+        //ShoppingItemCrud shoppingItemCrud = ShoppingItemCrud.getInstance(this);
+       // shoppingItemCrud.deleteAll();
+        //mAdapter.clear();
+       mShoppingViewModel.deleteAll();
    }
 
 
@@ -286,6 +312,7 @@ public class MainActivity extends AppCompatActivity {
    }
 
 
+   /*
    public void loadItems() throws IOException {
  /*      BufferedReader reader=null;
        FileInputStream fileInputStream= openFileInput(FILE_NAME);
@@ -306,17 +333,17 @@ public class MainActivity extends AppCompatActivity {
         }
         */
 
-        ShoppingItemCrud crud = ShoppingItemCrud.getInstance(this);
+   /*     ShoppingItemCrud crud = ShoppingItemCrud.getInstance(this);
         ArrayList<ShoppingItem> shoppingItems = crud.getAll();
         mAdapter.load(shoppingItems);
 
 
    }
+*/
 
 
 
-
-    public void saveItems() throws IOException{
+    /*public void saveItems() throws IOException{
         PrintWriter printWrite= null;
 
         FileOutputStream fileOutputStream= openFileOutput(FILE_NAME,MODE_PRIVATE);
@@ -327,7 +354,7 @@ public class MainActivity extends AppCompatActivity {
         }
 
         printWrite.close();
-    }
+    }*/
 
 
 

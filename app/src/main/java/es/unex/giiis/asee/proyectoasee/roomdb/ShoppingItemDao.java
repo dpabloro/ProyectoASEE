@@ -7,6 +7,7 @@ import androidx.room.Query;
 import androidx.room.Update;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import es.unex.giiis.asee.proyectoasee.ShoppingItem;
 
@@ -15,7 +16,7 @@ import es.unex.giiis.asee.proyectoasee.ShoppingItem;
 public interface ShoppingItemDao {
 
     @Query("SELECT * FROM shopping")
-    public LiveData<ArrayList<ShoppingItem>> getAll();
+    public LiveData<List<ShoppingItem>> getAll();
 
     @Insert
     public long insert(ShoppingItem item);

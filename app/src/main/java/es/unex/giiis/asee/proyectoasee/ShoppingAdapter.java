@@ -162,4 +162,9 @@ public class ShoppingAdapter extends RecyclerView.Adapter<ShoppingAdapter.ViewHo
 
     }
 
+    public void setShoppingItems(ArrayList<ShoppingItem> shoppingItems){
+        this.mItems= shoppingItems;
+        notifyDataSetChanged();
+    }
+
 }

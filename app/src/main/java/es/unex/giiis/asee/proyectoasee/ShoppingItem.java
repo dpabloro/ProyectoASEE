@@ -15,6 +15,7 @@ import java.util.ArrayList;
 
 import es.unex.giiis.asee.proyectoasee.roomdb.AlimentConverter;
 import es.unex.giiis.asee.proyectoasee.roomdb.StatusConverter;
+import retrofit2.http.POST;
 
 @Entity(tableName = "shopping")
 public class ShoppingItem implements Parcelable {
@@ -42,18 +43,18 @@ public class ShoppingItem implements Parcelable {
 
     @PrimaryKey(autoGenerate = true)
     private long id;
-    private String fTitle = new String();
+    private String title = new String();
     @TypeConverters(StatusConverter.class)
-    private Status fStatus = Status.PENDING;
-    private String fDate= new String();
+    private Status status = Status.PENDING;
+    private String date= new String();
     @TypeConverters(AlimentConverter.class)
-    private ArrayList<Posts> fAlimentos=new ArrayList<Posts>();
+    private ArrayList<Posts> alimentos=new ArrayList<Posts>();
 
     @Ignore
     protected ShoppingItem(Parcel in) {
-        fTitle = in.readString();
-        fDate = in.readString();
-        fAlimentos = in.createTypedArrayList(Posts.CREATOR);
+        this.title = in.readString();
+        this.date = in.readString();
+        this.alimentos = in.createTypedArrayList(Posts.CREATOR);
     }
 
     @Ignore
@@ -69,11 +70,12 @@ public class ShoppingItem implements Parcelable {
         }
     };
 
-    public ShoppingItem(long _id, String title, String status, String date, String alimentos) {
-        id=_id;
-        fTitle=title;
-        fStatus=Status.valueOf(status);
-        fDate=date;
+    @Ignore
+    public ShoppingItem(long id, String title, String status, String date, String alimentos) {
+        this.id=id;
+        this.title=title;
+        this.status=Status.valueOf(status);
+        this.date=date;
         String ingrediente="";
         Posts post;
         for (int i = 0; i < alimentos.length(); i++) {
@@ -82,110 +84,107 @@ public class ShoppingItem implements Parcelable {
             else {
                 post = new Posts(ingrediente);
                 post.setSelected(true);
-                fAlimentos.add(post);
+                this.alimentos.add(post);
                 ingrediente="";
             }
 
             if(i==alimentos.length()-1) {
                 post = new Posts(ingrediente);
                 post.setSelected(true);
-                fAlimentos.add(post);
+                this.alimentos.add(post);
             }
         }
 
+    }
 
 
-
-
+    public ShoppingItem(long id, String title, Status status, String date, ArrayList<Posts> alimentos) {
+        this.id=id;
+        this.title=title;
+        this.status=status;
+        this.date=date;
+        this.alimentos=alimentos;
 
     }
 
 
-    @Override
-    public int describeContents() {
-        return 0;
-    }
 
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(fTitle);
-        dest.writeString(fDate);
-        dest.writeTypedList(fAlimentos);
-    }
 
+    @Ignore
     public String getSAlimentos() {
-        String alimentos="";
-        for(int i=0;i<fAlimentos.size();i++){
-            if (i==fAlimentos.size()-1){
-                alimentos+=fAlimentos.get(i).getStrIngredient();
+        String aliments="";
+        for(int i=0;i<this.alimentos.size();i++){
+            if (i==this.alimentos.size()-1){
+                aliments+=this.alimentos.get(i).getStrIngredient();
             } else
-                alimentos+=fAlimentos.get(i).getStrIngredient()+COMMA_SEP;
+                aliments+=this.alimentos.get(i).getStrIngredient()+COMMA_SEP;
         }
 
-        Log.i("LISTA ALIMENTOS", alimentos);
+        Log.i("LISTA ALIMENTOS", aliments);
 
-        return alimentos;
+        return aliments;
     }
 
 
 
+    @Ignore
     ShoppingItem(String t, Status s, String d){
-        this.fTitle=t;
-        this.fStatus=s;
-        this.fDate=d;
-        this.fAlimentos=new ArrayList<Posts>();
+        this.title=t;
+        this.status=s;
+        this.date=d;
+        this.alimentos=new ArrayList<Posts>();
 
 
     }
 
-
+    @Ignore
     ShoppingItem(Intent intent){
-        fTitle= intent.getStringExtra(ShoppingItem.TITLE);
-        fStatus=Status.valueOf(intent.getStringExtra(ShoppingItem.STATUS));
-        fDate= intent.getStringExtra(ShoppingItem.DATE);
-        fAlimentos= (ArrayList<Posts>) intent.getSerializableExtra (ShoppingItem.ALIMENTOS);
+       this.title= intent.getStringExtra(ShoppingItem.TITLE);
+        this.status=Status.valueOf(intent.getStringExtra(ShoppingItem.STATUS));
+        this.date= intent.getStringExtra(ShoppingItem.DATE);
+        this.alimentos= (ArrayList<Posts>) intent.getSerializableExtra (ShoppingItem.ALIMENTOS);
     }
 
     public String getTitle(){
 
-        return fTitle;
+        return this.title;
     }
     public void setTitle(String title){
-        fTitle=title;
+        this.title=title;
     }
     public Status getStatus(){
 
-        return fStatus;
+        return status;
     }
     public void setStatus(Status status){
 
-        fStatus=status;
+        this.status=status;
     }
 
-    public ArrayList<Posts> getfAlimentos() {
-        return fAlimentos;
+    public ArrayList<Posts> getAlimentos() {
+        return alimentos;
     }
 
-    public void setfAlimentos(ArrayList<Posts> fAlimentos) {
-        this.fAlimentos = fAlimentos;
+    public void setAlimentos(ArrayList<Posts> fAlimentos) {
+        this.alimentos = fAlimentos;
     }
 
-    public void setID(long id) {
+    public void setId(long id) {
         this.id = id;
     }
 
-    public long getID(){
+    public long getId(){
 
         return id;
     }
 
     public String getDate(){
 
-        return fDate;
+        return date;
     }
     public void setDate(String date){
 
-        fDate=date;
+        this.date=date;
     }
 
 
@@ -215,13 +214,13 @@ public class ShoppingItem implements Parcelable {
     }
 
     public String toString() {
-        return fTitle + ITEM_SEP  + fStatus + ITEM_SEP
-                + fDate;
+        return title + ITEM_SEP  + status + ITEM_SEP
+                + date;
     }
 
     public String toLog() {
-        return "Title:" + fTitle + ITEM_SEP + "Status:" + fStatus + ITEM_SEP + "Date:"
-                + fDate;
+        return "Title:" + title + ITEM_SEP + "Status:" + status + ITEM_SEP + "Date:"
+                + date;
     }
 
     private static void log(String msg) {
@@ -233,5 +232,16 @@ public class ShoppingItem implements Parcelable {
         Log.i(TAG, msg);
     }
 
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(title);
+        dest.writeString(date);
+        dest.writeTypedList(alimentos);
+    }
 
 }

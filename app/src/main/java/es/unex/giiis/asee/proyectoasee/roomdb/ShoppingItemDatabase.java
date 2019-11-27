@@ -8,7 +8,7 @@ import androidx.room.RoomDatabase;
 
 import es.unex.giiis.asee.proyectoasee.ShoppingItem;
 
-@Database(entities = {ShoppingItem.class}, version = 1)
+@Database(entities = {ShoppingItem.class}, version = 1, exportSchema = false)
 public abstract class ShoppingItemDatabase extends RoomDatabase {
     private static ShoppingItemDatabase instance;
 
@@ -24,4 +24,5 @@ public abstract class ShoppingItemDatabase extends RoomDatabase {
 
     public abstract ShoppingItemDao shoppingItemDao();
 }
+
 
