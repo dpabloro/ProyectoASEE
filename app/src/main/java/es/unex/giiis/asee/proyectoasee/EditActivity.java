@@ -44,7 +44,7 @@ public class EditActivity extends AppCompatActivity  implements AlimentAdapter.O
     private RecyclerView.LayoutManager rLayoutManager;
     private AlimentAdapter mAdapter;
 
-    private ArrayList<Posts> listPost=new ArrayList<Posts>();
+    private ArrayList<Aliments> listPost=new ArrayList<Aliments>();
 
     Bundle datos;
     String datosobtenidos;
@@ -77,9 +77,9 @@ public class EditActivity extends AppCompatActivity  implements AlimentAdapter.O
 
 
         Intent intent= getIntent();
-       listPost = (ArrayList<Posts>) intent.getSerializableExtra("alimentos");
-        //ArrayList<Posts> listPost=new ArrayList<Posts>();
-      // Posts postsPrueba=new Posts("Pollo");
+       listPost = (ArrayList<Aliments>) intent.getSerializableExtra("alimentos");
+        //ArrayList<Aliments> listPost=new ArrayList<Aliments>();
+      // Aliments postsPrueba=new Aliments("Pollo");
 
       // listPost.add(postsPrueba);
         // Creamos un adapatador para el RecyclerView

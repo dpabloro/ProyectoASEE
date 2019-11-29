@@ -13,7 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.ArrayList;
 
 public class AlimentAdapter extends RecyclerView.Adapter<AlimentAdapter.MyViewHolder>  {
-    private  ArrayList<Posts> mDataset;
+    private  ArrayList<Aliments> mDataset;
     private static final String TAG = "AlimentAdapter-UserInterface";
 
 
@@ -32,7 +32,7 @@ public class AlimentAdapter extends RecyclerView.Adapter<AlimentAdapter.MyViewHo
         public TextView mTitleView;
         public View mView;
 
-        public Posts mItem;
+        public Aliments mItem;
 
         public CheckBox selectedView;
 
@@ -44,7 +44,7 @@ public class AlimentAdapter extends RecyclerView.Adapter<AlimentAdapter.MyViewHo
         }
     }
     // Provide a suitable constructor (depends on the kind of dataset)
-    public AlimentAdapter(ArrayList<Posts> myDataset,OnListInteractionListener listener) {
+    public AlimentAdapter(ArrayList<Aliments> myDataset, OnListInteractionListener listener) {
         mDataset=myDataset;
         mListener = listener;
     }
@@ -61,10 +61,10 @@ public class AlimentAdapter extends RecyclerView.Adapter<AlimentAdapter.MyViewHo
         return vh;
     }
 
-    public ArrayList<Posts> getItems(){
-        ArrayList<Posts> postsItems=new ArrayList<>();
-        postsItems=mDataset;
-        return postsItems;
+    public ArrayList<Aliments> getItems(){
+        ArrayList<Aliments> alimentsItems =new ArrayList<>();
+        alimentsItems =mDataset;
+        return alimentsItems;
     }
     // Replace the contents of a view (invoked by the layout manager)
     public void onBindViewHolder(final MyViewHolder holder, final int position) {
@@ -75,10 +75,10 @@ public class AlimentAdapter extends RecyclerView.Adapter<AlimentAdapter.MyViewHo
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
                 if(isChecked){
-                    mDataset.get(position).setSelected(true);
+                    holder.mItem.setSelected(true);
                 }
                 else{
-                    mDataset.get(position).setSelected(false);
+                    holder.mItem.setSelected(false);
                 }
             }
         });
@@ -91,19 +91,19 @@ public class AlimentAdapter extends RecyclerView.Adapter<AlimentAdapter.MyViewHo
         return mDataset.size();
     }
 
-    public void swap(ArrayList<Posts> dataset){
+    public void swap(ArrayList<Aliments> dataset){
         mDataset = dataset;
         notifyDataSetChanged();
     }
 
 
 
-    public ArrayList<Posts> getSelected(){
+    public ArrayList<Aliments> getSelected(){
 
         //Lista alimentos seleccionados
-        ArrayList<Posts> listaSeleccionados = new ArrayList<Posts>();
+        ArrayList<Aliments> listaSeleccionados = new ArrayList<Aliments>();
         for (int i=0; i< mDataset.size(); i++) {
-            Posts p;
+            Aliments p;
             p = mDataset.get(i);
             if(p.isSelected()){
                 listaSeleccionados.add(p);

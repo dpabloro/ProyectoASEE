@@ -47,7 +47,7 @@ public class AlimentActivity extends AppCompatActivity implements AlimentAdapter
 
     private int numAlimentos;
 
-    private ArrayList<Posts> listaItems = new ArrayList<Posts>();
+    private ArrayList<Aliments> listaItems = new ArrayList<Aliments>();
 
     private RecyclerView rRecyclerView; //(lista de las listas/elementos que tenemos en la aplicacion)
     private RecyclerView.LayoutManager rLayoutManager;
@@ -91,7 +91,7 @@ public class AlimentActivity extends AppCompatActivity implements AlimentAdapter
 
                 Intent data= new Intent();
 
-                ArrayList<Posts> listSeleccionado= new ArrayList<Posts>();
+                ArrayList<Aliments> listSeleccionado= new ArrayList<Aliments>();
                 // Gather ToDoItem data
                 // -  Title
                 listSeleccionado=mAdapter.getSelected();
@@ -147,7 +147,7 @@ public class AlimentActivity extends AppCompatActivity implements AlimentAdapter
                         for (int i = 0; i < numAlimentos; i++) {
                             JSONObject mJsonObject = mJsonArray.getJSONObject(i);
                             String name = mJsonObject.getString("strIngredient");
-                            Posts post = new Posts(name);
+                            Aliments post = new Aliments(name);
                             listaItems.add(post);
 
                         }

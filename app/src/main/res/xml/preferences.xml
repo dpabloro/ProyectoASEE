@@ -6,6 +6,7 @@
         android:key="pref_username"
         android:selectAllOnFocus="true"
         android:singleLine="true"
+        android:maxLength="12"
         android:title="@string/username" />
 
     <EditTextPreference

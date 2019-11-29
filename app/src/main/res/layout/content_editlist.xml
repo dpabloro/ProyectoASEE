@@ -101,6 +101,9 @@
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_below="@id/date"
+        android:textColor="@android:color/white"
+        android:drawableLeft="@drawable/ic_calendar"
+        app:backgroundTint="#D81C60"
         android:text="@string/chooseDate" />
 
 
@@ -119,6 +122,9 @@
         android:layout_alignParentBottom="true"
         android:layout_alignParentLeft="true"
         android:layout_marginTop="25dp"
+        android:textColor="@android:color/white"
+        android:drawableLeft="@drawable/ic_cancel"
+        app:backgroundTint="#008577"
         android:text="@string/cancelButton" />
 
     <Button
@@ -127,6 +133,9 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
+        android:textColor="@android:color/white"
+        android:drawableLeft="@drawable/ic_reset"
+        app:backgroundTint="#008577"
         android:text="@string/resetButton" />
 
     <Button
@@ -135,6 +144,9 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
+        android:textColor="@android:color/white"
+        android:drawableLeft="@drawable/ic_save"
+        app:backgroundTint="#008577"
         android:text="@string/submitButton" />
 
 

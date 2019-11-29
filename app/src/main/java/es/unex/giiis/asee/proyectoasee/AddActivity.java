@@ -39,7 +39,7 @@ public class AddActivity extends AppCompatActivity implements AlimentAdapter.OnL
     private RadioGroup mStatusRadioGroup;
     private EditText mTitleText;
     private RadioButton mDefaultStatusButton;
-    private ArrayList<Posts> listPost=new ArrayList<Posts>();
+    private ArrayList<Aliments> listPost=new ArrayList<Aliments>();
 
     private static final int ADD_ALIMENT_REQUEST = 1;
 
@@ -160,7 +160,7 @@ public class AddActivity extends AppCompatActivity implements AlimentAdapter.OnL
                 //-  Get Status
                 Status status = getStatus();
 
-                ArrayList<Posts> listaAlimentos=listPost;
+                ArrayList<Aliments> listaAlimentos=listPost;
 
 
                 // - Package ToDoItem data into an Intent
@@ -250,7 +250,7 @@ public class AddActivity extends AppCompatActivity implements AlimentAdapter.OnL
             if (resultCode == RESULT_OK) {
                 // The user picked a contact.
                 // The Intent's data Uri identifies which contact was selected.
-                listPost = (ArrayList<Posts>)data.getSerializableExtra("alimentos");
+                listPost = (ArrayList<Aliments>)data.getSerializableExtra("alimentos");
 
                 mAdapter=new AlimentAdapter(listPost, this);
                 // Attach the adapter to the RecyclerView
@@ -267,7 +267,7 @@ public class AddActivity extends AppCompatActivity implements AlimentAdapter.OnL
         log("ENTRAAAAAAAAAAA1");
         Intent intent= getIntent();
 
-        Posts postsPrueba=new Posts("Pollo");
+        Aliments postsPrueba=new Aliments("Pollo");
 
         listPost.add(postsPrueba);
         // Creamos un adapatador para el RecyclerView
@@ -278,9 +278,9 @@ public class AddActivity extends AppCompatActivity implements AlimentAdapter.OnL
         log("EL TAMAÑOOO ESSSSS: "+intent.getExtras());
         if(intent.getExtras()!=null){
             log("ENTRAAAAAAAAAAA2");
-            listPost = (ArrayList<Posts>) intent.getSerializableExtra("alimentos");
-            //ArrayList<Posts> listPost=new ArrayList<Posts>();
-            // Posts postsPrueba=new Posts("Pollo");
+            listPost = (ArrayList<Aliments>) intent.getSerializableExtra("alimentos");
+            //ArrayList<Aliments> listPost=new ArrayList<Aliments>();
+            // Aliments postsPrueba=new Aliments("Pollo");
 
             // listPost.add(postsPrueba);
             // Creamos un adapatador para el RecyclerView

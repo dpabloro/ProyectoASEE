@@ -8,14 +8,12 @@ import android.util.Log;
 import androidx.room.Entity;
 import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
-import androidx.room.TypeConverter;
 import androidx.room.TypeConverters;
 
 import java.util.ArrayList;
 
 import es.unex.giiis.asee.proyectoasee.roomdb.AlimentConverter;
 import es.unex.giiis.asee.proyectoasee.roomdb.StatusConverter;
-import retrofit2.http.POST;
 
 @Entity(tableName = "shopping")
 public class ShoppingItem implements Parcelable {
@@ -48,13 +46,13 @@ public class ShoppingItem implements Parcelable {
     private Status status = Status.PENDING;
     private String date= new String();
     @TypeConverters(AlimentConverter.class)
-    private ArrayList<Posts> alimentos=new ArrayList<Posts>();
+    private ArrayList<Aliments> alimentos=new ArrayList<Aliments>();
 
     @Ignore
     protected ShoppingItem(Parcel in) {
         this.title = in.readString();
         this.date = in.readString();
-        this.alimentos = in.createTypedArrayList(Posts.CREATOR);
+        this.alimentos = in.createTypedArrayList(Aliments.CREATOR);
     }
 
     @Ignore
@@ -77,19 +75,19 @@ public class ShoppingItem implements Parcelable {
         this.status=Status.valueOf(status);
         this.date=date;
         String ingrediente="";
-        Posts post;
+        Aliments post;
         for (int i = 0; i < alimentos.length(); i++) {
             if(alimentos.charAt(i)!=',')
                 ingrediente+=alimentos.charAt(i);
             else {
-                post = new Posts(ingrediente);
+                post = new Aliments(ingrediente);
                 post.setSelected(true);
                 this.alimentos.add(post);
                 ingrediente="";
             }
 
             if(i==alimentos.length()-1) {
-                post = new Posts(ingrediente);
+                post = new Aliments(ingrediente);
                 post.setSelected(true);
                 this.alimentos.add(post);
             }
@@ -98,7 +96,7 @@ public class ShoppingItem implements Parcelable {
     }
 
 
-    public ShoppingItem(long id, String title, Status status, String date, ArrayList<Posts> alimentos) {
+    public ShoppingItem(long id, String title, Status status, String date, ArrayList<Aliments> alimentos) {
         this.id=id;
         this.title=title;
         this.status=status;
@@ -132,7 +130,7 @@ public class ShoppingItem implements Parcelable {
         this.title=t;
         this.status=s;
         this.date=d;
-        this.alimentos=new ArrayList<Posts>();
+        this.alimentos=new ArrayList<Aliments>();
 
 
     }
@@ -142,7 +140,7 @@ public class ShoppingItem implements Parcelable {
        this.title= intent.getStringExtra(ShoppingItem.TITLE);
         this.status=Status.valueOf(intent.getStringExtra(ShoppingItem.STATUS));
         this.date= intent.getStringExtra(ShoppingItem.DATE);
-        this.alimentos= (ArrayList<Posts>) intent.getSerializableExtra (ShoppingItem.ALIMENTOS);
+        this.alimentos= (ArrayList<Aliments>) intent.getSerializableExtra (ShoppingItem.ALIMENTOS);
     }
 
     public String getTitle(){
@@ -161,11 +159,11 @@ public class ShoppingItem implements Parcelable {
         this.status=status;
     }
 
-    public ArrayList<Posts> getAlimentos() {
+    public ArrayList<Aliments> getAlimentos() {
         return alimentos;
     }
 
-    public void setAlimentos(ArrayList<Posts> fAlimentos) {
+    public void setAlimentos(ArrayList<Aliments> fAlimentos) {
         this.alimentos = fAlimentos;
     }
 
@@ -192,7 +190,7 @@ public class ShoppingItem implements Parcelable {
     // Take a set of String data values and
     // package them for transport in an Intent
 
-    public static void packageIntent(Intent intent, String title, Status status, String date,ArrayList<Posts> listaAlimentos) {
+    public static void packageIntent(Intent intent, String title, Status status, String date,ArrayList<Aliments> listaAlimentos) {
 
         intent.putExtra(ShoppingItem.TITLE, title);
         intent.putExtra(ShoppingItem.STATUS, status.toString());
@@ -202,10 +200,10 @@ public class ShoppingItem implements Parcelable {
     }
 
 
-    public static void packageIntent(Intent intent, ArrayList<Posts> listaAlimentos) {
+    public static void packageIntent(Intent intent, ArrayList<Aliments> listaAlimentos) {
 
         intent.putParcelableArrayListExtra(ShoppingItem.ALIMENTOS,listaAlimentos);
-        ArrayList<Posts> listPost = (ArrayList<Posts>) intent.getSerializableExtra("alimentos");
+        ArrayList<Aliments> listPost = (ArrayList<Aliments>) intent.getSerializableExtra("alimentos");
 
         for (int i=0;i<listPost.size();i++){
             log("LA LISTA DE ALIMENTOSSSSSSS ES: "+listPost.get(i).getStrIngredient());

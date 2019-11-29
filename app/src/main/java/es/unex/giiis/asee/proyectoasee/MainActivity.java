@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.text.Editable;
@@ -30,17 +31,8 @@ import androidx.appcompat.widget.Toolbar;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 
-import java.io.BufferedWriter;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.OutputStreamWriter;
-import java.io.PrintWriter;
-
 import java.util.ArrayList;
 import java.util.List;
-
-import es.unex.giiis.asee.proyectoasee.database.DBContract;
-import es.unex.giiis.asee.proyectoasee.database.ShoppingItemCrud;
 
 public class MainActivity extends AppCompatActivity {
     // Add a ToDoItem Request Code
@@ -71,6 +63,8 @@ public class MainActivity extends AppCompatActivity {
 
     private RadioGroup mStatusRadioGroup;
     private EditText mTitleText;
+    private TextView nameView;
+    private Typeface font;
 
     EditText searchInput;
     private boolean cargar = false;
@@ -98,6 +92,9 @@ public class MainActivity extends AppCompatActivity {
             }
 
         });
+
+
+        nameView = (TextView) findViewById(R.id.name_label);
 
         //Obtenemos la referencia del RecyclerView
         rRecyclerView= (RecyclerView) findViewById(R.id.my_recycler_view);
@@ -148,7 +145,7 @@ public class MainActivity extends AppCompatActivity {
                 ShoppingItem.Status status = item.getStatus();
 
                 String dateString= item.getDate();
-                ArrayList<Posts> listaAlimentos=item.getAlimentos();
+                ArrayList<Aliments> listaAlimentos=item.getAlimentos();
 
 
 
@@ -190,8 +187,8 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void afterTextChanged(Editable s) {
-                ShoppingItemCrud crud = ShoppingItemCrud.getInstance(MainActivity.this);
-                listaItems= crud.getAll();
+                //ShoppingItemCrud crud = ShoppingItemCrud.getInstance(MainActivity.this);
+                //listaItems= crud.getAll();
                 filtrar(listaItems,s.toString());
             }
         });
@@ -209,9 +206,17 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public void onResume() {
         super.onResume();
+        String username="Welcome, ";
+        SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
+        username +=  sharedPref.getString(SettingFragments.KEY_PREF_USERNAME, "");
 
-        // Load saved ToDoItems, if necessary
+        String fuente= "fuentes/fontname.ttf";
+        this.font = Typeface.createFromAsset(getAssets(),fuente);
+        nameView.setTypeface(font);
+        nameView.setText(username);
 
+
+        // Load saved ShoppinItems, if necessary
         if (mAdapter.getItemCount() == 0 || cargar) {
 
                 cargar=false;

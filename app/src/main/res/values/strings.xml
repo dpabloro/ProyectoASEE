@@ -4,7 +4,7 @@
     <string name="priorityList">Priority</string>
     <string name="dateList">Date</string>
     <string name="titleDetailsList">Title</string>
-    <string name="introducir_textTitle">Lista de la compra</string>
+    <string name="introducir_textTitle">Shopping list</string>
     <string name="statusText">Status</string>
     <string name="pendiente">Pending</string>
     <string name="realizado">Done</string>
@@ -23,8 +23,8 @@
     <string name="search">search</string>
 
 
-    <string name="username">Nombre usuario</string>
-    <string name="numAlimentos">Numero de Alimentos</string>
+    <string name="username">Username</string>
+    <string name="numAlimentos">Aliments number</string>
 
 
 

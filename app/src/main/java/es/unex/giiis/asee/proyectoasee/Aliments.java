@@ -8,9 +8,9 @@ import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 
-public class Posts implements Parcelable {
+public class Aliments implements Parcelable {
 
-    private static final String TAG = "Posts-UserInterface";
+    private static final String TAG = "Aliments-UserInterface";
 
     public final static String SELECTED="selectedItem";
     @SerializedName("strIngredient")
@@ -21,26 +21,26 @@ public class Posts implements Parcelable {
     @Expose
     private boolean selected;
 
-    public Posts(String ingredient){
+    public Aliments(String ingredient){
         this.strIngredient=ingredient;
         this.selected=false;
     }
 
 
-    protected Posts(Parcel in) {
+    protected Aliments(Parcel in) {
         strIngredient = in.readString();
         selected = in.readByte() != 0;
     }
 
-    public static final Creator<Posts> CREATOR = new Creator<Posts>() {
+    public static final Creator<Aliments> CREATOR = new Creator<Aliments>() {
         @Override
-        public Posts createFromParcel(Parcel in) {
-            return new Posts(in);
+        public Aliments createFromParcel(Parcel in) {
+            return new Aliments(in);
         }
 
         @Override
-        public Posts[] newArray(int size) {
-            return new Posts[size];
+        public Aliments[] newArray(int size) {
+            return new Aliments[size];
         }
     };
 
