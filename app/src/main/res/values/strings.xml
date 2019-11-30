@@ -25,6 +25,12 @@
 
     <string name="username">Username</string>
     <string name="numAlimentos">Aliments number</string>
+    <string name="changeColor">Change Color</string>
+    <string name="OptionsColorChange">Options to change </string>
+    <string name="blue">Blue </string>
+    <string name="green">Green </string>
+    <string name="red">Red </string>
+    <string name="notColor"> Not Color </string>
 
 
 

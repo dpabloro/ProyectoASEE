@@ -25,6 +25,9 @@
         android:layout_alignParentTop="true"
         android:layout_marginStart="6dp"
         android:layout_marginTop="38dp"
+        android:drawableLeft="@drawable/ic_status"
+        android:drawableTint="@android:color/background_dark"
+        android:drawablePadding="5dp"
         android:text="Status: "></TextView>
 
     <TextView
@@ -40,10 +43,15 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/statusView"
         android:layout_alignParentStart="true"
-        android:layout_marginStart="136dp"
+        android:layout_marginStart="170dp"
         android:layout_marginTop="-19dp"
         android:layout_marginBottom="20dp"
-        android:text="Date: "></TextView>
+        android:drawableLeft="@drawable/ic_calendar"
+        android:drawableTint="@android:color/background_dark"
+        android:drawablePadding="5dp"
+        android:text="Date: ">
+
+    </TextView>
 
     <TextView
         android:id="@+id/dateView"

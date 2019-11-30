@@ -21,6 +21,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 
@@ -47,6 +48,7 @@ public class MainActivity extends AppCompatActivity {
     private static final int MENU_DELETE = Menu.FIRST;
     private static final int MENU_SELECTED = Menu.FIRST+1;
     private static final int MENU_PREFERENCES = Menu.FIRST+1;
+    private static final int MENU_COLOR = Menu.FIRST+2;
 
     //Lista de lista de la compra
     private ArrayList<ShoppingItem> listaItems = new ArrayList<ShoppingItem>();
@@ -64,6 +66,7 @@ public class MainActivity extends AppCompatActivity {
     private RadioGroup mStatusRadioGroup;
     private EditText mTitleText;
     private TextView nameView;
+    private LinearLayout fondo;
     private Typeface font;
 
     EditText searchInput;
@@ -95,7 +98,7 @@ public class MainActivity extends AppCompatActivity {
 
 
         nameView = (TextView) findViewById(R.id.name_label);
-
+        fondo = findViewById(R.id.fondo);
         //Obtenemos la referencia del RecyclerView
         rRecyclerView= (RecyclerView) findViewById(R.id.my_recycler_view);
 
@@ -284,7 +287,7 @@ public class MainActivity extends AppCompatActivity {
         menu.add(Menu.NONE, MENU_DELETE, Menu.NONE, "Delete all");
        // menu.add(Menu.NONE, MENU_SELECTED, Menu.NONE, "Delete selected");
         menu.add(Menu.NONE, MENU_PREFERENCES, Menu.NONE, "Preferences");
-
+       // menu.add(Menu.NONE, MENU_COLOR, Menu.NONE, "Change the color in FastCart");
         return true;
     }
 
@@ -296,6 +299,7 @@ public class MainActivity extends AppCompatActivity {
             case MENU_PREFERENCES:
                 openSettings();
                 return true;
+
 
             default:
                 return super.onOptionsItemSelected(item);
@@ -315,6 +319,7 @@ public class MainActivity extends AppCompatActivity {
         Intent newActivity = new Intent(this, Settings.class);
         startActivity(newActivity);
    }
+
 
 
    /*

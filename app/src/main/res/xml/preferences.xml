@@ -18,4 +18,13 @@
 
 
 
+
+   <Preference android:layout="@layout/preference_buttons" android:key="loginButtons"></Preference>
+
+
+
+
+
+
+
 </PreferenceScreen>
