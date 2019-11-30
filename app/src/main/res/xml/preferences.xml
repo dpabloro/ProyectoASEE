@@ -16,13 +16,26 @@
         android:singleLine="true"
         android:title="@string/numAlimentos" />
 
+    <EditTextPreference
+        android:defaultValue="Actual"
+        android:key="pref_color"
+        android:selectAllOnFocus="true"
+        android:singleLine="true"
+        android:focusable="false"
+        android:title="Theme selected" />
 
 
+    <Preference
+        android:key="tema1"
+        android:title="Theme1"></Preference>
 
-   <Preference android:layout="@layout/preference_buttons" android:key="loginButtons"></Preference>
+    <Preference
+        android:key="tema2"
+        android:title="Theme2"></Preference>
 
-
-
+    <Preference
+        android:key="tema3"
+        android:title="Theme3"></Preference>
 
 
 

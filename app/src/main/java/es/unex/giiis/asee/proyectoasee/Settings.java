@@ -1,11 +1,13 @@
 package es.unex.giiis.asee.proyectoasee;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.nfc.Tag;
 import android.os.Bundle;
 import android.preference.Preference;
+import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.View;
 import android.view.Window;
@@ -20,88 +22,68 @@ public class Settings extends AppCompatActivity{
 
     private Window window;
 
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        this.window= getWindow();
-
 
         setContentView(R.layout.layout_settingactivity);
-        Log.i(TAG, "pref");
+
         Toolbar mtoolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(mtoolbar);
 
+        //Poner icono
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+        getSupportActionBar().setIcon(R.mipmap.ic_icono);
 
-        Log.i(TAG, "PRIMER BUTTON");
+    }
 
+    public void onResume(){
+        super.onResume();
 
-        setContentView(R.layout.preference_buttons);
-        final Button button1 = (Button) findViewById(R.id.buttonC1);
-        button1.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                log("Entered Button.OnClickListener.onClick()");
-
-                // - Implement onClick().
-                String primaryDark="##00CCFF";
-                String primary="#66CCFF";
-                String background="##99CCFF"; //azul pastel
-                cambiarColor(primaryDark,primary,background);
+        SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
+        String tema =sharedPref.getString(SettingFragments.KEY_PREF_COLOR, "");
 
 
-            }
-        });
-/*
+        if(tema.equals("Blue")){
+            String primaryDark="#8F99B1";
+            String primary="#2C3D65";
+            String background="#E4E9F3"; //pink pastel
+            cambiarColor(primaryDark,primary,background);
+        }
 
-        final Button button2 = (Button) findViewById(R.id.buttonC2);
-        button1.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                log("Entered cancelButton.OnClickListener.onClick()");
+        if(tema.equals("Brown")){
+            String primaryDark="#CE69A2";
+            String primary="#4C3A1B";
+            String background="#FFFFFF"; //pink pastel
+            cambiarColor(primaryDark,primary,background);
+        }
 
-                // - Implement onClick().
-                String primaryDark="#FF69B4";
-                String primary="#FFB6C1";
-                String background="#FFC0CB"; //pink pastel
-                cambiarColor(primaryDark,primary,background);
-
-
-            }
-        });
-
-
-        final Button button3 = (Button) findViewById(R.id.buttonC3);
-        button1.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                log("Entered cancelButton.OnClickListener.onClick()");
-
-                // - Implement onClick().
-                String primaryDark="#32CD32";
-                String primary="#98FB98";
-                String background="#90EE90"; //verde
-                cambiarColor(primaryDark,primary,background);
-
-
-            }
-        });
-        */
+        if(tema.equals("Purple")){
+            String primaryDark="#F0B5D4";
+            String primary="#631446";
+            String background="#FFF6C1";
+            cambiarColor(primaryDark,primary,background);
+        }
 
     }
 
 
     public void cambiarColor(String primaryDark, String primary, String background){
-    //cambiarPrimaryDark
-     window.setStatusBarColor(Color.parseColor(primaryDark));
-     //colorPrimary
+        this.window= getWindow();
+
+        //cambiarPrimaryDark
+        window.setStatusBarColor(Color.parseColor(primaryDark));
+        //colorPrimary
         getSupportActionBar().setBackgroundDrawable(new ColorDrawable(Color.parseColor(primary)));
-     //bg
-     window.setBackgroundDrawable(new ColorDrawable(Color.parseColor(background)));
-     //boton navigation
-      window.setNavigationBarColor(Color.parseColor(primary));
+        //bg
+        window.setBackgroundDrawable(new ColorDrawable(Color.parseColor(background)));
+        //boton navigation
+        window.setNavigationBarColor(Color.parseColor(primary));
+
+
     }
-
-
 
     private static void log(String msg) {
         try {

@@ -3,6 +3,8 @@ package es.unex.giiis.asee.proyectoasee;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.SharedPreferences;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 
@@ -15,6 +17,7 @@ import android.content.Intent;
 import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.View;
+import android.view.Window;
 import android.widget.Button;
 
 
@@ -52,6 +55,8 @@ public class AlimentActivity extends AppCompatActivity implements AlimentAdapter
     private RecyclerView rRecyclerView; //(lista de las listas/elementos que tenemos en la aplicacion)
     private RecyclerView.LayoutManager rLayoutManager;
     private AlimentAdapter mAdapter;
+    private Window window;
+
 
 
 
@@ -68,6 +73,10 @@ public class AlimentActivity extends AppCompatActivity implements AlimentAdapter
         //Establecemos la toolbar
         Toolbar Mytoolbar= (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(Mytoolbar);
+
+        //Poner icono
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+        getSupportActionBar().setIcon(R.mipmap.ic_icono);
 
         //Obtenemos la referencia del RecyclerView
         rRecyclerView= (RecyclerView) findViewById(R.id.my_recycler_viewAliment);
@@ -125,6 +134,31 @@ public class AlimentActivity extends AppCompatActivity implements AlimentAdapter
         SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
         num =  sharedPref.getString(SettingFragments.KEY_PREF_ALIMENT, "");
         numAlimentos = Integer.parseInt(num);
+
+
+        String tema =sharedPref.getString(SettingFragments.KEY_PREF_COLOR, "");
+
+
+        if(tema.equals("Blue")){
+            String primaryDark="#8F99B1";
+            String primary="#2C3D65";
+            String background="#E4E9F3"; //pink pastel
+            cambiarColor(primaryDark,primary,background);
+        }
+
+        if(tema.equals("Brown")){
+            String primaryDark="#CE69A2";
+            String primary="#4C3A1B";
+            String background="#FFFFFF"; //pink pastel
+            cambiarColor(primaryDark,primary,background);
+        }
+
+        if(tema.equals("Purple")){
+            String primaryDark="#F0B5D4";
+            String primary="#631446";
+            String background="#FFF6C1";
+            cambiarColor(primaryDark,primary,background);
+        }
 
 
 
@@ -186,6 +220,20 @@ public class AlimentActivity extends AppCompatActivity implements AlimentAdapter
     }
 
 
+    public void cambiarColor(String primaryDark, String primary, String background){
+        this.window= getWindow();
+
+        //cambiarPrimaryDark
+        window.setStatusBarColor(Color.parseColor(primaryDark));
+        //colorPrimary
+        getSupportActionBar().setBackgroundDrawable(new ColorDrawable(Color.parseColor(primary)));
+        //bg
+        window.setBackgroundDrawable(new ColorDrawable(Color.parseColor(background)));
+        //boton navigation
+        window.setNavigationBarColor(Color.parseColor(primary));
+
+
+    }
 
     private void log(String msg) {
         try {

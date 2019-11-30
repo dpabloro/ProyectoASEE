@@ -4,9 +4,14 @@ import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.app.DialogFragment;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.View;
+import android.view.Window;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
@@ -44,6 +49,9 @@ public class EditActivity extends AppCompatActivity  implements AlimentAdapter.O
     private RecyclerView.LayoutManager rLayoutManager;
     private AlimentAdapter mAdapter;
 
+    private Window window;
+
+
     private ArrayList<Aliments> listPost=new ArrayList<Aliments>();
 
     Bundle datos;
@@ -58,6 +66,10 @@ public class EditActivity extends AppCompatActivity  implements AlimentAdapter.O
         setContentView(R.layout.activity_editlist);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        //Poner icono
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+        getSupportActionBar().setIcon(R.mipmap.ic_icono);
 
 
 
@@ -206,7 +218,20 @@ public class EditActivity extends AppCompatActivity  implements AlimentAdapter.O
 
     }
 
+    public void cambiarColor(String primaryDark, String primary, String background){
+        this.window= getWindow();
 
+        //cambiarPrimaryDark
+        window.setStatusBarColor(Color.parseColor(primaryDark));
+        //colorPrimary
+        getSupportActionBar().setBackgroundDrawable(new ColorDrawable(Color.parseColor(primary)));
+        //bg
+        window.setBackgroundDrawable(new ColorDrawable(Color.parseColor(background)));
+        //boton navigation
+        window.setNavigationBarColor(Color.parseColor(primary));
+
+
+    }
     private void showDatePickerDialog() {
         DialogFragment newFragment = new DatePickerFragment();
         newFragment.show(getFragmentManager(),"datePicker");
@@ -215,6 +240,37 @@ public class EditActivity extends AppCompatActivity  implements AlimentAdapter.O
 
     @Override
     public void onListInteraction(String url) {
+
+    }
+
+
+    public void onResume(){
+        super.onResume();
+
+        SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
+        String tema =sharedPref.getString(SettingFragments.KEY_PREF_COLOR, "");
+
+
+        if(tema.equals("Blue")){
+            String primaryDark="#8F99B1";
+            String primary="#2C3D65";
+            String background="#E4E9F3"; //pink pastel
+            cambiarColor(primaryDark,primary,background);
+        }
+
+        if(tema.equals("Brown")){
+            String primaryDark="#CE69A2";
+            String primary="#4C3A1B";
+            String background="#FFFFFF"; //pink pastel
+            cambiarColor(primaryDark,primary,background);
+        }
+
+        if(tema.equals("Purple")){
+            String primaryDark="#F0B5D4";
+            String primary="#631446";
+            String background="#FFF6C1";
+            cambiarColor(primaryDark,primary,background);
+        }
 
     }
 

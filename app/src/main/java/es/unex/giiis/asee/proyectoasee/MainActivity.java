@@ -11,7 +11,9 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.graphics.Typeface;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.text.Editable;
@@ -20,6 +22,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.RadioGroup;
@@ -56,6 +59,7 @@ public class MainActivity extends AppCompatActivity {
     private RecyclerView rRecyclerView; //(lista de las listas/elementos que tenemos en la aplicacion)
     private RecyclerView.LayoutManager rLayoutManager;
     private ShoppingAdapter mAdapter;
+    private Window window;
 
 
 
@@ -86,6 +90,10 @@ public class MainActivity extends AppCompatActivity {
         Toolbar Mytoolbar= (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(Mytoolbar);
 
+        //Poner icono
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+        getSupportActionBar().setIcon(R.mipmap.ic_icono);
+
         FloatingActionButton floatingAddButton= (FloatingActionButton) findViewById(R.id.add_button);
         floatingAddButton.setOnClickListener(new View.OnClickListener(){
             @Override
@@ -98,7 +106,6 @@ public class MainActivity extends AppCompatActivity {
 
 
         nameView = (TextView) findViewById(R.id.name_label);
-        fondo = findViewById(R.id.fondo);
         //Obtenemos la referencia del RecyclerView
         rRecyclerView= (RecyclerView) findViewById(R.id.my_recycler_view);
 
@@ -218,6 +225,29 @@ public class MainActivity extends AppCompatActivity {
         nameView.setTypeface(font);
         nameView.setText(username);
 
+        String tema =sharedPref.getString(SettingFragments.KEY_PREF_COLOR, "");
+
+
+        if(tema.equals("Blue")){
+            String primaryDark="#8F99B1";
+            String primary="#2C3D65";
+            String background="#E4E9F3"; //pink pastel
+            cambiarColor(primaryDark,primary,background);
+        }
+
+        if(tema.equals("Brown")){
+            String primaryDark="#CE69A2";
+            String primary="#4C3A1B";
+            String background="#FFFFFF"; //pink pastel
+            cambiarColor(primaryDark,primary,background);
+        }
+
+        if(tema.equals("Purple")){
+            String primaryDark="#F0B5D4";
+            String primary="#631446";
+            String background="#FFF6C1";
+            cambiarColor(primaryDark,primary,background);
+        }
 
         // Load saved ShoppinItems, if necessary
         if (mAdapter.getItemCount() == 0 || cargar) {
@@ -243,6 +273,22 @@ public class MainActivity extends AppCompatActivity {
         //ShoppingItemCrud crud=ShoppingItemCrud.getInstance(this);
         //crud.close();
         super.onDestroy();
+    }
+
+
+    public void cambiarColor(String primaryDark, String primary, String background){
+        this.window= getWindow();
+
+        //cambiarPrimaryDark
+        window.setStatusBarColor(Color.parseColor(primaryDark));
+        //colorPrimary
+        getSupportActionBar().setBackgroundDrawable(new ColorDrawable(Color.parseColor(primary)));
+        //bg
+        window.setBackgroundDrawable(new ColorDrawable(Color.parseColor(background)));
+        //boton navigation
+        window.setNavigationBarColor(Color.parseColor(primary));
+
+
     }
 
     @Override
