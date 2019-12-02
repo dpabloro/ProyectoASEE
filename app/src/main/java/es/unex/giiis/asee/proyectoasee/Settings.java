@@ -37,6 +37,8 @@ public class Settings extends AppCompatActivity{
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         getSupportActionBar().setIcon(R.mipmap.ic_icono);
 
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
     }
 
     public void onResume(){

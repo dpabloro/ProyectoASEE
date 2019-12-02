@@ -78,6 +78,9 @@ public class AlimentActivity extends AppCompatActivity implements AlimentAdapter
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         getSupportActionBar().setIcon(R.mipmap.ic_icono);
 
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+
         //Obtenemos la referencia del RecyclerView
         rRecyclerView= (RecyclerView) findViewById(R.id.my_recycler_viewAliment);
 

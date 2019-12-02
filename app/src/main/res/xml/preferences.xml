@@ -2,22 +2,26 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
 
     <EditTextPreference
-        android:defaultValue="DeliaYEstela"
+        android:defaultValue="username"
+        android:icon="@drawable/ic_perfil"
         android:key="pref_username"
         android:selectAllOnFocus="true"
         android:singleLine="true"
-        android:maxLength="12"
+        android:maxLength="8"
         android:title="@string/username" />
 
     <EditTextPreference
         android:defaultValue="529"
+        android:icon="@drawable/ic_numberaliments"
         android:key="pref_aliment"
         android:selectAllOnFocus="true"
         android:singleLine="true"
         android:title="@string/numAlimentos" />
 
     <EditTextPreference
-        android:defaultValue="Actual"
+        android:defaultValue="Default"
+        android:icon="@drawable/ic_theme"
+        android:summary="The theme selected is Default"
         android:key="pref_color"
         android:selectAllOnFocus="true"
         android:singleLine="true"
@@ -27,15 +31,18 @@
 
     <Preference
         android:key="tema1"
-        android:title="Theme1"></Preference>
+        android:icon="@drawable/ic_themeblue"
+        android:title="Theme1 Blue"></Preference>
 
     <Preference
         android:key="tema2"
-        android:title="Theme2"></Preference>
+        android:icon="@drawable/ic_themebrown"
+        android:title="Theme2 Brown"></Preference>
 
     <Preference
         android:key="tema3"
-        android:title="Theme3"></Preference>
+        android:icon="@drawable/ic_themepurple"
+        android:title="Theme3 Purple"></Preference>
 
 
 

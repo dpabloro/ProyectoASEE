@@ -71,6 +71,7 @@ public class EditActivity extends AppCompatActivity  implements AlimentAdapter.O
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         getSupportActionBar().setIcon(R.mipmap.ic_icono);
 
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
 
         //Obtenemos la referencia del RecyclerView

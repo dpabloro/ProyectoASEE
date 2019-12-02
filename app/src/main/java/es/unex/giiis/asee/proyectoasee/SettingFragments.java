@@ -23,6 +23,7 @@ public class SettingFragments extends PreferenceFragment {
 
     private static final String TAG = "settingfragments-UserInterface";
 
+    private EditTextPreference editTextPreference;
 
 
 
@@ -35,6 +36,10 @@ public class SettingFragments extends PreferenceFragment {
         addPreferencesFromResource(R.xml.preferences);
 
 
+        editTextPreference= (EditTextPreference) findPreference("pref_color");
+
+
+
 
         Preference pref=findPreference("tema1");
         pref.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
@@ -42,9 +47,9 @@ public class SettingFragments extends PreferenceFragment {
             public boolean onPreferenceClick(Preference preference) {
                 String tema="Blue";
 
-                EditTextPreference pref= (EditTextPreference) findPreference("pref_color");
 
-                pref.setText(tema);
+                editTextPreference.setText(tema);
+                editTextPreference.setSummary("The theme selected is Blue");
 
 
                 String primaryDark="#8F99B1";
@@ -63,9 +68,10 @@ public class SettingFragments extends PreferenceFragment {
 
                 String tema="Brown";
 
-                EditTextPreference pref= (EditTextPreference) findPreference("pref_color");
 
-                pref.setText(tema);
+                editTextPreference.setText(tema);
+                editTextPreference.setSummary("The theme selected is Brown");
+
 
                 String primaryDark="#CE69A2";
                 String primary="#4C3A1B";
@@ -83,9 +89,10 @@ public class SettingFragments extends PreferenceFragment {
 
                 String tema="Purple";
 
-                EditTextPreference pref= (EditTextPreference) findPreference("pref_color");
 
-                pref.setText(tema);
+                editTextPreference.setText(tema);
+                editTextPreference.setSummary("The theme selected is Purple");
+
 
                 String primaryDark="#F0B5D4";
                 String primary="#631446";
@@ -96,6 +103,24 @@ public class SettingFragments extends PreferenceFragment {
             }
         });
     }
+
+    public void onResume(){
+        super.onResume();
+        String temaElegido=editTextPreference.getText();
+        if(temaElegido.equals("Blue")){
+            editTextPreference.setSummary("The theme selected is Blue");
+        }
+
+        if(temaElegido.equals("Brown")){
+            editTextPreference.setSummary("The theme selected is Brown");
+        }
+
+        if(temaElegido.equals("Purple")){
+            editTextPreference.setSummary("The theme selected is Purple");
+        }
+
+    }
+
 
     public void cambiarColor(String primaryDark, String primary, String background){
         this.window= getActivity().getWindow();

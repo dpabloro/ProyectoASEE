@@ -63,6 +63,8 @@ public class AddActivity extends AppCompatActivity implements AlimentAdapter.OnL
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         getSupportActionBar().setIcon(R.mipmap.ic_icono);
 
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
 
         mTitleText = (EditText) findViewById(R.id.titleIntroducirId);
         mDefaultStatusButton = (RadioButton) findViewById(R.id.statusNotDone);
