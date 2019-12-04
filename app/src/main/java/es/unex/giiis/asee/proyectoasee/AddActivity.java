@@ -294,7 +294,12 @@ public class AddActivity extends AppCompatActivity implements AlimentAdapter.OnL
         SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
         String tema =sharedPref.getString(SettingFragments.KEY_PREF_COLOR, "");
 
-
+        if(tema.equals("Default")){
+            String primaryDark="#00574B";
+            String primary="#008577";
+            String background="#FFFFFF";
+            cambiarColor(primaryDark,primary,background);
+        }
         if(tema.equals("Blue")){
             String primaryDark="#8F99B1";
             String primary="#2C3D65";

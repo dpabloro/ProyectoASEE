@@ -145,9 +145,6 @@ public class ShoppingAdapter extends RecyclerView.Adapter<ShoppingAdapter.ViewHo
             this.mItems=shoppingItems;
 
             for (ShoppingItem shoppingItem : mItems) {
-                ShoppingItem.Status shoppingItemStatus= shoppingItem.getStatus();
-
-                Log.i(TAG,"EL ITEM EEEESS: "+ shoppingItem.toString()+" Y SU ESTADO ESSS: "+shoppingItemStatus.toString());
 
                 if (shoppingItem.getTitle().toLowerCase().contains(texto.toLowerCase())) {
                     filtrarLista.add(shoppingItem);

@@ -28,6 +28,10 @@
         android:focusable="false"
         android:title="Theme selected" />
 
+    <Preference
+        android:key="temadefault"
+        android:icon="@drawable/ic_themedefault"
+        android:title="Theme Default"></Preference>
 
     <Preference
         android:key="tema1"

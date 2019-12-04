@@ -15,10 +15,13 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.preference.PreferenceManager;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
+import android.widget.EditText;
 
 
 import com.android.volley.Request;
@@ -57,8 +60,7 @@ public class AlimentActivity extends AppCompatActivity implements AlimentAdapter
     private AlimentAdapter mAdapter;
     private Window window;
 
-
-
+    EditText searchInput;
 
 
     @Override
@@ -124,9 +126,37 @@ public class AlimentActivity extends AppCompatActivity implements AlimentAdapter
 
 
 
+        searchInput=findViewById(R.id.search_inputAliments);
+
+
+
+        searchInput.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                //ShoppingItemCrud crud = ShoppingItemCrud.getInstance(MainActivity.this);
+                //listaItems= crud.getAll();
+                filtrar(listaItems,s.toString());
+            }
+        });
+
+
+
     }
 
+    public void filtrar(ArrayList<Aliments> alimentsItems,String texto) {
 
+        mAdapter.filtrar(alimentsItems,texto);
+    }
 
     @Override
     public void onResume() {
@@ -141,7 +171,12 @@ public class AlimentActivity extends AppCompatActivity implements AlimentAdapter
 
         String tema =sharedPref.getString(SettingFragments.KEY_PREF_COLOR, "");
 
-
+        if(tema.equals("Default")){
+            String primaryDark="#00574B";
+            String primary="#008577";
+            String background="#FFFFFF";
+            cambiarColor(primaryDark,primary,background);
+        }
         if(tema.equals("Blue")){
             String primaryDark="#8F99B1";
             String primary="#2C3D65";

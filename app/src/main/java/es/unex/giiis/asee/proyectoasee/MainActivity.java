@@ -15,7 +15,6 @@ import android.graphics.Color;
 import android.graphics.Typeface;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
-import android.preference.EditTextPreference;
 import android.preference.PreferenceManager;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -228,6 +227,12 @@ public class MainActivity extends AppCompatActivity {
 
         String tema =sharedPref.getString(SettingFragments.KEY_PREF_COLOR, "");
 
+        if(tema.equals("Default")){
+            String primaryDark="#00574B";
+            String primary="#008577";
+            String background="#FFFFFF";
+            cambiarColor(primaryDark,primary,background);
+        }
 
         if(tema.equals("Blue")){
             String primaryDark="#8F99B1";

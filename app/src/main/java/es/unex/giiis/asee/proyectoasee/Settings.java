@@ -1,17 +1,14 @@
 package es.unex.giiis.asee.proyectoasee;
 
-import android.content.Intent;
+
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
-import android.nfc.Tag;
 import android.os.Bundle;
-import android.preference.Preference;
 import android.preference.PreferenceManager;
 import android.util.Log;
-import android.view.View;
 import android.view.Window;
-import android.widget.Button;
+
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -47,6 +44,12 @@ public class Settings extends AppCompatActivity{
         SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
         String tema =sharedPref.getString(SettingFragments.KEY_PREF_COLOR, "");
 
+        if(tema.equals("Default")){
+            String primaryDark="#00574B";
+            String primary="#008577";
+            String background="#FFFFFF";
+            cambiarColor(primaryDark,primary,background);
+        }
 
         if(tema.equals("Blue")){
             String primaryDark="#8F99B1";

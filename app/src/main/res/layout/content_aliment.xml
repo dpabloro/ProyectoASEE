@@ -13,11 +13,28 @@
     tools:context="es.unex.giiis.asee.proyectoasee.AlimentActivity"
     tools:showIn="@layout/activity_aliments">
 
+
+    <EditText
+        android:id="@+id/search_inputAliments"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_marginLeft="3dp"
+        android:layout_marginTop="-16dp"
+        android:ems="10"
+        android:hint="Search by name..."
+        android:inputType="textShortMessage"
+        tools:ignore="UnknownId">
+        <requestFocus />
+
+    </EditText>
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/my_recycler_viewAliment"
         android:scrollbars="vertical"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="match_parent"
+        android:layout_marginTop="40dp"/>
 
 
     <Button

@@ -21,7 +21,7 @@
         android:layout_marginLeft="3dp"
         android:layout_marginTop="-16dp"
         android:ems="10"
-        android:hint="Search..."
+        android:hint="Search by title..."
         android:inputType="textShortMessage"
         tools:ignore="UnknownId">
         <requestFocus />

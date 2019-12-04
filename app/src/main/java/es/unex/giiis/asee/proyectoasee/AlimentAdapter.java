@@ -127,4 +127,26 @@ public class AlimentAdapter extends RecyclerView.Adapter<AlimentAdapter.MyViewHo
     }
 
 
+    public void filtrar(ArrayList<Aliments> alimentsItems,String texto) {
+        ArrayList<Aliments> filtrarLista = new ArrayList<>();
+
+        if(!texto.isEmpty()) {
+            this.mDataset=alimentsItems;
+
+            for (Aliments aliments : mDataset) {
+
+
+                if (aliments.getStrIngredient().toLowerCase().contains(texto.toLowerCase())) {
+                    filtrarLista.add(aliments);
+                }
+
+            }
+
+            this.mDataset = filtrarLista;
+        } else
+            this.mDataset=alimentsItems;
+        notifyDataSetChanged();
+
+    }
+
 }

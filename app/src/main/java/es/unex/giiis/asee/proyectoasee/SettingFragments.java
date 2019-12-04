@@ -1,14 +1,13 @@
 package es.unex.giiis.asee.proyectoasee;
 
-import android.content.SharedPreferences;
+
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.preference.EditTextPreference;
 import android.preference.Preference;
 import android.preference.PreferenceFragment;
-import android.preference.PreferenceManager;
-import android.util.Log;
+
 import android.view.Window;
 
 
@@ -39,7 +38,25 @@ public class SettingFragments extends PreferenceFragment {
         editTextPreference= (EditTextPreference) findPreference("pref_color");
 
 
+        Preference prefDefault=findPreference("temadefault");
+        prefDefault.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+            @Override
+            public boolean onPreferenceClick(Preference preference) {
+                String tema="Default";
 
+
+                editTextPreference.setText(tema);
+                editTextPreference.setSummary("The theme selected is Default");
+
+
+                String primaryDark="#00574B";
+                String primary="#008577";
+                String background="#FFFFFF";
+                cambiarColor(primaryDark,primary,background);
+
+                return true;
+            }
+        });
 
         Preference pref=findPreference("tema1");
         pref.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
@@ -107,6 +124,10 @@ public class SettingFragments extends PreferenceFragment {
     public void onResume(){
         super.onResume();
         String temaElegido=editTextPreference.getText();
+
+        if(temaElegido.equals("Default")){
+            editTextPreference.setSummary("The theme selected is Default");
+        }
         if(temaElegido.equals("Blue")){
             editTextPreference.setSummary("The theme selected is Blue");
         }
