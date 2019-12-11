@@ -208,7 +208,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void filtrar(ArrayList<ShoppingItem> shoppingItems,String texto) {
-
         mAdapter.filtrar(shoppingItems,texto);
     }
 

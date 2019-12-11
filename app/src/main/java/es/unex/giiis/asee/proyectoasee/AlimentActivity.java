@@ -1,5 +1,6 @@
 package es.unex.giiis.asee.proyectoasee;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.SharedPreferences;
@@ -10,6 +11,7 @@ import android.os.Bundle;
 
 
 import androidx.appcompat.widget.Toolbar;
+import androidx.lifecycle.Observer;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -36,8 +38,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-
-
+import java.util.List;
 
 
 public class AlimentActivity extends AppCompatActivity implements AlimentAdapter.OnListInteractionListener{
@@ -60,6 +61,8 @@ public class AlimentActivity extends AppCompatActivity implements AlimentAdapter
     private AlimentAdapter mAdapter;
     private Window window;
 
+    private AlimentRepository alimentRepository;
+
     EditText searchInput;
 
 
@@ -68,9 +71,13 @@ public class AlimentActivity extends AppCompatActivity implements AlimentAdapter
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_aliments);
 
+        alimentRepository = new AlimentRepository();
+
         queue = Volley.newRequestQueue(this);
 
-        getPosts();
+        //getPosts();
+        //listaItems.addAll(alimentRepository.getAliments(numAlimentos,queue));
+        //log("TAMANOOO LISTA INICIAL "+listaItems.size());
 
         //Establecemos la toolbar
         Toolbar Mytoolbar= (Toolbar) findViewById(R.id.toolbar);
@@ -149,6 +156,7 @@ public class AlimentActivity extends AppCompatActivity implements AlimentAdapter
             }
         });
 
+        //cargarAdapter();
 
 
     }
@@ -167,6 +175,19 @@ public class AlimentActivity extends AppCompatActivity implements AlimentAdapter
         SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
         num =  sharedPref.getString(SettingFragments.KEY_PREF_ALIMENT, "");
         numAlimentos = Integer.parseInt(num);
+
+        alimentRepository.getAliments(numAlimentos,queue).observe(this, new Observer<ArrayList<Aliments>>() {
+            @Override
+            public void onChanged(@Nullable final ArrayList<Aliments> items) {
+                // Update the cached copy of the items in the adapter.
+                Log.i("Prueba Observer", "Cambios notificados init");
+                listaItems= (ArrayList<Aliments>) items;
+                Log.i("Prueba Observer", "Cambios notificados end");
+                cargarAdapter();
+
+            }
+        });
+        log("TAMANOOO LISTA INICIAL "+listaItems.size());
 
 
         String tema =sharedPref.getString(SettingFragments.KEY_PREF_COLOR, "");
