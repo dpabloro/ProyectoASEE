@@ -3,6 +3,7 @@ package es.unex.giiis.asee.proyectoasee;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.ActivityNotFoundException;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
@@ -17,6 +18,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.preference.PreferenceManager;
+import android.speech.RecognizerIntent;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -24,6 +26,7 @@ import android.view.View;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 
 
 import com.android.volley.Request;
@@ -39,12 +42,15 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 
 public class AlimentActivity extends AppCompatActivity implements AlimentAdapter.OnListInteractionListener{
 
     // Add a ToDoItem Request Code
     private static final int ALIMENT_OK = 0;
+    private static final int REQ_CODE_SPEECH_INPUT=100;
+    private ImageButton mBotonHablar;
     private static final String TAG = "AlimentActivity-UserInterface";
 
 
@@ -64,6 +70,8 @@ public class AlimentActivity extends AppCompatActivity implements AlimentAdapter
     private AlimentRepository alimentRepository;
 
     EditText searchInput;
+
+
 
 
     @Override
@@ -132,9 +140,7 @@ public class AlimentActivity extends AppCompatActivity implements AlimentAdapter
         });
 
 
-
-        searchInput=findViewById(R.id.search_inputAliments);
-
+        searchInput=(EditText) findViewById(R.id.search_inputAliments);
 
 
         searchInput.addTextChangedListener(new TextWatcher() {
@@ -156,20 +162,16 @@ public class AlimentActivity extends AppCompatActivity implements AlimentAdapter
             }
         });
 
+        mBotonHablar=findViewById(R.id.microfono);
+        mBotonHablar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                iniciarEntradadeVoz();
+            }
+        });
+
+
         //cargarAdapter();
-
-
-    }
-
-    public void filtrar(ArrayList<Aliments> alimentsItems,String texto) {
-
-        mAdapter.filtrar(alimentsItems,texto);
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-
         String num;
 
         SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
@@ -187,7 +189,23 @@ public class AlimentActivity extends AppCompatActivity implements AlimentAdapter
 
             }
         });
-        log("TAMANOOO LISTA INICIAL "+listaItems.size());
+
+    }
+
+    public void filtrar(ArrayList<Aliments> alimentsItems,String texto) {
+
+        mAdapter.filtrar(alimentsItems,texto);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        String num;
+
+        SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
+        num =  sharedPref.getString(SettingFragments.KEY_PREF_ALIMENT, "");
+        numAlimentos = Integer.parseInt(num);
 
 
         String tema =sharedPref.getString(SettingFragments.KEY_PREF_COLOR, "");
@@ -223,59 +241,41 @@ public class AlimentActivity extends AppCompatActivity implements AlimentAdapter
 
     }
 
-    private void getPosts(){
-        String url = "https://www.themealdb.com/api/json/v1/1/list.php?i=list";
+    private void iniciarEntradadeVoz(){
+        Intent intent=new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
+        intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL,RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
+        intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE, Locale.getDefault());
+        intent.putExtra(RecognizerIntent.EXTRA_PROMPT,"Dime el alimento que quieres buscar");
+        try{
+            startActivityForResult(intent,REQ_CODE_SPEECH_INPUT);
+        } catch (ActivityNotFoundException e){
 
-        JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
-            @Override
-            public void onResponse(JSONObject response) {
-
-
-
-                try {
-                    JSONArray mJsonArray = response.getJSONArray("meals");
-                    if( numAlimentos > mJsonArray.length() ) {
-                        numAlimentos= mJsonArray.length();
-                    }
-                        for (int i = 0; i < numAlimentos; i++) {
-                            JSONObject mJsonObject = mJsonArray.getJSONObject(i);
-                            String name = mJsonObject.getString("strIngredient");
-                            Aliments post = new Aliments(name);
-                            listaItems.add(post);
-
-                        }
-
-
-
-
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-                cargarAdapter();
-            }
-
-        },
-
-
-                new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-            }
-
-        });
-
-        queue.add(request);
+        }
     }
 
-    private void cargarAdapter() {
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
 
+        switch (requestCode){
+            case REQ_CODE_SPEECH_INPUT:{
+                if (resultCode==RESULT_OK && null!=data){
+
+                    ArrayList<String> result=data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
+                    searchInput.setText(result.get(0));
+                }
+                break;
+            }
+        }
+
+    }
+
+
+    private void cargarAdapter() {
         // Creamos un adapatador para el RecyclerView
         mAdapter=new AlimentAdapter(listaItems, this);
         // Attach the adapter to the RecyclerView
         rRecyclerView.setAdapter(mAdapter);
-
-        log("TAMANOOO LISTA" + listaItems.size());
-
     }
 
 
