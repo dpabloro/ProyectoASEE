@@ -107,7 +107,6 @@ public class AlimentAdapter extends RecyclerView.Adapter<AlimentAdapter.MyViewHo
             p = mDataset.get(i);
             if(p.isSelected()){
                 listaSeleccionados.add(p);
-                //log("Lista seleccionada " + listaSeleccionados.get(i).getStrIngredient() );
 
             }
 
@@ -130,6 +129,7 @@ public class AlimentAdapter extends RecyclerView.Adapter<AlimentAdapter.MyViewHo
     public void filtrar(ArrayList<Aliments> alimentsItems,String texto) {
         ArrayList<Aliments> filtrarLista = new ArrayList<>();
 
+
         if(!texto.isEmpty()) {
             this.mDataset=alimentsItems;
 
@@ -143,8 +143,9 @@ public class AlimentAdapter extends RecyclerView.Adapter<AlimentAdapter.MyViewHo
             }
 
             this.mDataset = filtrarLista;
-        } else
-            this.mDataset=alimentsItems;
+        } else {
+            this.mDataset = alimentsItems;
+        }
         notifyDataSetChanged();
 
     }

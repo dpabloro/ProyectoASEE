@@ -70,6 +70,7 @@ public class AlimentActivity extends AppCompatActivity implements AlimentAdapter
     private AlimentRepository alimentRepository;
 
     EditText searchInput;
+    boolean primero=true;
 
 
 
@@ -83,9 +84,6 @@ public class AlimentActivity extends AppCompatActivity implements AlimentAdapter
 
         queue = Volley.newRequestQueue(this);
 
-        //getPosts();
-        //listaItems.addAll(alimentRepository.getAliments(numAlimentos,queue));
-        //log("TAMANOOO LISTA INICIAL "+listaItems.size());
 
         //Establecemos la toolbar
         Toolbar Mytoolbar= (Toolbar) findViewById(R.id.toolbar);
@@ -123,7 +121,7 @@ public class AlimentActivity extends AppCompatActivity implements AlimentAdapter
                 ArrayList<Aliments> listSeleccionado= new ArrayList<Aliments>();
                 // Gather ToDoItem data
                 // -  Title
-                listSeleccionado=mAdapter.getSelected();
+                listSeleccionado=getSelected();
 
 
 
@@ -156,10 +154,13 @@ public class AlimentActivity extends AppCompatActivity implements AlimentAdapter
 
             @Override
             public void afterTextChanged(Editable s) {
-                //ShoppingItemCrud crud = ShoppingItemCrud.getInstance(MainActivity.this);
-                //listaItems= crud.getAll();
+
                 filtrar(listaItems,s.toString());
             }
+
+
+
+
         });
 
         mBotonHablar=findViewById(R.id.microfono);
@@ -171,7 +172,6 @@ public class AlimentActivity extends AppCompatActivity implements AlimentAdapter
         });
 
 
-        //cargarAdapter();
         String num;
 
         SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
@@ -197,6 +197,24 @@ public class AlimentActivity extends AppCompatActivity implements AlimentAdapter
         mAdapter.filtrar(alimentsItems,texto);
     }
 
+    public ArrayList<Aliments> getSelected(){
+
+        //Lista alimentos seleccionados
+        ArrayList<Aliments> listaSeleccionados = new ArrayList<Aliments>();
+        for (int i=0; i< mAdapter.getItems().size(); i++) {
+            Aliments p;
+            p = mAdapter.getItems().get(i);
+            if(p.isSelected()){
+                listaSeleccionados.add(p);
+
+            }
+
+        }
+
+        return listaSeleccionados;
+
+    }
+
     @Override
     public void onResume() {
         super.onResume();
@@ -206,6 +224,14 @@ public class AlimentActivity extends AppCompatActivity implements AlimentAdapter
         SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
         num =  sharedPref.getString(SettingFragments.KEY_PREF_ALIMENT, "");
         numAlimentos = Integer.parseInt(num);
+
+
+        if(primero) {
+            cargarAdapter();
+            primero=false;
+        }
+
+
 
 
         String tema =sharedPref.getString(SettingFragments.KEY_PREF_COLOR, "");
@@ -256,26 +282,36 @@ public class AlimentActivity extends AppCompatActivity implements AlimentAdapter
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+        log("LISTAITEMS1 TIENE "+listaItems.size());
 
         switch (requestCode){
             case REQ_CODE_SPEECH_INPUT:{
                 if (resultCode==RESULT_OK && null!=data){
 
+                    log("LISTAITEMS al volver del micro TIENE "+listaItems.size());
                     ArrayList<String> result=data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
                     searchInput.setText(result.get(0));
                 }
                 break;
             }
+
         }
+        log("LISTAITEMS2 TIENE "+listaItems.size());
+
 
     }
 
 
     private void cargarAdapter() {
-        // Creamos un adapatador para el RecyclerView
+
+        // Creamos un adapatador
+        // para el RecyclerView
         mAdapter=new AlimentAdapter(listaItems, this);
         // Attach the adapter to the RecyclerView
         rRecyclerView.setAdapter(mAdapter);
+
+        log("TAMANOOO LISTA en cargarAdapter" + listaItems.size());
+
     }
 
 
