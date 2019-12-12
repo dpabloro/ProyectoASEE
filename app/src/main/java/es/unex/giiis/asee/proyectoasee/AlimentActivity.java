@@ -13,6 +13,7 @@ import android.os.Bundle;
 
 import androidx.appcompat.widget.Toolbar;
 import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -28,20 +29,10 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 
-
-import com.android.volley.Request;
 import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Locale;
 
 
@@ -54,20 +45,19 @@ public class AlimentActivity extends AppCompatActivity implements AlimentAdapter
     private static final String TAG = "AlimentActivity-UserInterface";
 
 
-    private static final String FILE_NAME = "AlimentActivity.txt";
-
     private RequestQueue queue;
 
     private int numAlimentos;
 
     private ArrayList<Aliments> listaItems = new ArrayList<Aliments>();
+    private AlimentViewModel mAlimentViewModel;
+
 
     private RecyclerView rRecyclerView; //(lista de las listas/elementos que tenemos en la aplicacion)
     private RecyclerView.LayoutManager rLayoutManager;
     private AlimentAdapter mAdapter;
     private Window window;
 
-    private AlimentRepository alimentRepository;
 
     EditText searchInput;
     boolean primero=true;
@@ -80,7 +70,6 @@ public class AlimentActivity extends AppCompatActivity implements AlimentAdapter
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_aliments);
 
-        alimentRepository = new AlimentRepository();
 
         queue = Volley.newRequestQueue(this);
 
@@ -122,7 +111,6 @@ public class AlimentActivity extends AppCompatActivity implements AlimentAdapter
                 // Gather ToDoItem data
                 // -  Title
                 listSeleccionado=getSelected();
-
 
 
 
@@ -178,15 +166,16 @@ public class AlimentActivity extends AppCompatActivity implements AlimentAdapter
         num =  sharedPref.getString(SettingFragments.KEY_PREF_ALIMENT, "");
         numAlimentos = Integer.parseInt(num);
 
-        alimentRepository.getAliments(numAlimentos,queue).observe(this, new Observer<ArrayList<Aliments>>() {
+        mAlimentViewModel = ViewModelProviders.of(this).get(AlimentViewModel.class);
+
+        mAlimentViewModel.getAliments(numAlimentos,queue).observe(this, new Observer<ArrayList<Aliments>>() {
             @Override
             public void onChanged(@Nullable final ArrayList<Aliments> items) {
                 // Update the cached copy of the items in the adapter.
-                Log.i("Prueba Observer", "Cambios notificados init");
+                Log.i("Prueba ", "Cambios notificados init");
                 listaItems= (ArrayList<Aliments>) items;
-                Log.i("Prueba Observer", "Cambios notificados end");
+                Log.i("Prueba ", "Cambios notificados end");
                 cargarAdapter();
-
             }
         });
 
